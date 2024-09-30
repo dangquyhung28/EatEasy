@@ -13,6 +13,12 @@
         android:theme="@style/Theme.EatEasy"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.CartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.HomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Login_Activity"
             android:exported="false" />
         <activity
