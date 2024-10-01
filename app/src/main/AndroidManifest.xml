@@ -13,16 +13,13 @@
         android:theme="@style/Theme.EatEasy"
         tools:targetApi="31">
         <activity
-            android:name=".Activity.CartActivity"
+            android:name=".Activity.Admin.DashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.HomeActivity"
+            android:name=".Activity.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.Login_Activity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".Activity.IntroActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,6 +27,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Activity.User.CartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.User.HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.Login_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

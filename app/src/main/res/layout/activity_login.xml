@@ -1,10 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.Login_Activity">
+    android:id="@+id/Login_Activity"
+   > <!-- Hình ảnh làm background -->
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageButton
+        android:id="@+id/settings_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:background="?attr/selectableItemBackground"
+        android:src="@drawable/ic_setting"
+        android:contentDescription="Cài đặt"
+        android:padding="16dp" />
+
+    <!-- Chữ Login ở trên cùng -->
+    <TextView
+        android:id="@+id/tvLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:layout_marginTop="150dp"
+        android:layout_centerHorizontal="true"/>
+
+    <!-- Tên đăng nhập -->
+    <EditText
+        android:id="@+id/etUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tên đăng nhập"
+        android:layout_below="@id/tvLogin"
+        android:layout_margin="20dp"
+        android:padding="10dp"
+        android:background="@drawable/edit_text_background"
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/darker_gray"/>
+
+    <!-- Mật khẩu -->
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Mật khẩu"
+        android:inputType="textPassword"
+        android:layout_below="@id/etUsername"
+        android:layout_margin="20dp"
+        android:padding="10dp"
+        android:background="@drawable/edit_text_background"
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/darker_gray"/>
+    <Button
+        android:id="@+id/button_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ĐĂNG NHẬP"
+        android:layout_below="@id/etPassword"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:background="@drawable/button_rounded"
+        android:textColor="@android:color/white"/>
+
+    <!-- Dòng "Nếu chưa có tài khoản " -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_LN"
+        android:layout_below="@id/button_login"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tvQuenMK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quên mật khẩu?"
+            android:textStyle="italic"
+            android:textSize="16sp"
+            android:layout_centerHorizontal="true"/>
+        <TextView
+            android:id="@+id/tvDangKi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đăng kí"
+            android:layout_alignRight="@+id/tvQuenMK"
+            android:textSize="16sp"
+            android:paddingStart="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:textColor="@drawable/text_color_selector"
+            android:layout_below="@id/etPassword"
+            android:layout_centerHorizontal="true"/>
+    </LinearLayout>
+
+    <!-- Icon 1  -->
+    <ImageView
+        android:id="@+id/iconGoogle"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/facebook"
+        android:layout_below="@id/layout_LN"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="20dp"/>
+
+    <!-- Icon 2  -->
+    <ImageView
+        android:id="@+id/iconFacebook"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/google"
+        android:layout_below="@id/layout_LN"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="100dp"
+        android:layout_marginTop="20dp"/>
+
+</RelativeLayout>
