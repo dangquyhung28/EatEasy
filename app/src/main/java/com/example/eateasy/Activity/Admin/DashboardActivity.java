@@ -1,5 +1,6 @@
 package com.example.eateasy.Activity.Admin;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,37 +11,43 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.eateasy.Activity.Login_Activity;
+import com.example.eateasy.Fragments.Admin.HomeFragment;
+import com.example.eateasy.Fragments.Admin.OrderFragment;
 import com.example.eateasy.R;
+import com.example.eateasy.databinding.ActivityDashboardBinding;
 
 public class DashboardActivity extends AppCompatActivity {
-    Button btnDangXuat;
+     ActivityDashboardBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_dashboard);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.AdminDashboard), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        binding = ActivityDashboardBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        //aánh xạ
-        initwiget();
+        binding.bottomNavigationView.setOnClickListener(item->{
+            switch (item.getId()){
+                case R.id.trangchu_admin:
+                    replaceFragment(new HomeFragment());
+                    break;
+                case R.id.donhang_admin:
+                    replaceFragment(new OrderFragment());
+                    break;
 
-        //test
-        btnDangXuat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DashboardActivity.this, Login_Activity.class);
-                startActivity(intent);
             }
+            return true;
         });
+
+
+    }
+    private void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentTransaction replace = fragmentTransaction.replace(R.id.fragment_layout_admin, fragment);
+        fragmentTransaction.commit();
     }
 
-    private void initwiget() {
-        btnDangXuat = findViewById(R.id.btnLogoutAdmin);
-    }
 }
