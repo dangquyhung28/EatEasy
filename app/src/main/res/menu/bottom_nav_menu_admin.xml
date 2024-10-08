@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/trangchu_admin"
+    <item android:id="@+id/nav_home"
         android:title="Trang chủ"
         android:icon="@drawable/baseline_home_24"/>
-    <item android:id="@+id/donhang_admin"
+    <item android:id="@+id/nav_order"
         android:title="Đơn hàng"
         android:icon="@drawable/baseline_production_quantity_limits_24"/>
     <item android:title="Sản phẩm"
-        android:id="@+id/sanpham_admin"
+        android:id="@+id/nav_product"
         android:icon="@drawable/product_admin_24"/>
     <item android:title="Cài đặt"
-        android:id="@+id/caidat_admin"
+        android:id="@+id/nav_setting"
         android:icon="@drawable/baseline_settings_24"/>
 </menu>

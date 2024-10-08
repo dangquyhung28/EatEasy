@@ -1,5 +1,6 @@
 package com.example.eateasy.Fragments.Admin;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,7 +8,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.eateasy.Activity.Login_Activity;
 import com.example.eateasy.R;
 
 /**
@@ -16,6 +20,7 @@ import com.example.eateasy.R;
  * create an instance of this fragment.
  */
 public class SettingFragment extends Fragment {
+    ImageView btnLogout;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,9 +63,34 @@ public class SettingFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() != null) {
+            TextView toolbarTitle = getActivity().findViewById(R.id.toolbar_title);
+            ImageView iconNotification = getActivity().findViewById(R.id.icon_notification);
+
+            toolbarTitle.setText("Cài đặt"); // Change title for ProductFragment
+            iconNotification.setImageResource(R.drawable.baseline_settings_24); // Set a different icon if needed
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_setting, container, false);
+        View view=  inflater.inflate(R.layout.fragment_setting, container, false);
+
+        btnLogout = view.findViewById(R.id.logout_admin);
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), Login_Activity.class);
+                startActivity(intent);
+            }
+        });
+
+        return  view;
     }
+
 }

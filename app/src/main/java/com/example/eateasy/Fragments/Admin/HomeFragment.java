@@ -7,7 +7,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.eateasy.Adapter.Admin.GridViewAdapter;
 import com.example.eateasy.R;
 
 /**
@@ -58,9 +62,29 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() != null) {
+            TextView toolbarTitle = getActivity().findViewById(R.id.toolbar_title);
+            ImageView iconNotification = getActivity().findViewById(R.id.icon_notification);
+
+            toolbarTitle.setText("Quản lý bán hàng"); // Change title for ProductFragment
+            iconNotification.setImageResource(R.drawable.baseline_home_24); // Set a different icon if needed
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        GridView gridView = view.findViewById(R.id.grid_view);
+        String[] titles = {"Quản lý sản phẩm", "Quản lý đơn hàng", "Báo cáo thống kê", "Quản lý khách hàng"};
+        int[] icons = {R.drawable.icon_product_admin, R.drawable.icon_cart_admin, R.drawable.icon_blackboard_admin, R.drawable.ic_user_management}; // Sử dụng các drawable icon của bạn
+
+        GridViewAdapter adapter = new GridViewAdapter(getContext(), titles, icons);
+        gridView.setAdapter(adapter);
+
+        return view;
     }
 }

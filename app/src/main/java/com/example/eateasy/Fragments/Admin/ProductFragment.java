@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.eateasy.R;
 
@@ -54,6 +56,18 @@ public class ProductFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Update the toolbar title and icon
+        if (getActivity() != null) {
+            TextView toolbarTitle = getActivity().findViewById(R.id.toolbar_title);
+            ImageView iconNotification = getActivity().findViewById(R.id.icon_notification);
+
+            toolbarTitle.setText("Quản lý sản phâm"); // Change title for ProductFragment
+            iconNotification.setImageResource(R.drawable.product_admin_24); // Set a different icon if needed
         }
     }
 
