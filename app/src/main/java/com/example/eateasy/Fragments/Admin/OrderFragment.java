@@ -3,6 +3,7 @@ package com.example.eateasy.Fragments.Admin;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.eateasy.Adapter.Admin.OrderPagerAdapter;
 import com.example.eateasy.R;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,6 +22,8 @@ import com.example.eateasy.R;
  * create an instance of this fragment.
  */
 public class OrderFragment extends Fragment {
+    private TabLayout tabLayout;
+    private ViewPager2 viewPager;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,6 +35,7 @@ public class OrderFragment extends Fragment {
     private String mParam2;
 
     public OrderFragment() {
+
         // Required empty public constructor
     }
 
@@ -75,6 +82,26 @@ public class OrderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_order, container, false);
+        View view = inflater.inflate(R.layout.fragment_order, container, false);
+
+        tabLayout = view.findViewById(R.id.tabLayout);
+        viewPager = view.findViewById(R.id.viewPager);
+
+        // Set up the ViewPager with the OrderPagerAdapter
+        OrderPagerAdapter adapter = new OrderPagerAdapter(requireActivity());
+        viewPager.setAdapter(adapter);
+
+        // Connect TabLayout with ViewPager2
+        new TabLayoutMediator(tabLayout, viewPager,
+                (tab, position) -> {
+                    if (position == 0) {
+                        tab.setText("Đơn nhập");
+                    } else {
+                        tab.setText("Đơn bán");
+                    }
+                }
+        ).attach();
+
+        return view;
     }
 }

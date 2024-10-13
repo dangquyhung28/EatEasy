@@ -8,5 +8,5 @@
 
     <stroke
         android:width="2dp"
-    android:color="#FF000000"/> <!-- Màu sắc của viền -->
+    android:color="#FFFFFFFF"/> <!-- Màu sắc của viền -->
 </shape>

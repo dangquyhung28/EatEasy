@@ -1,0 +1,20 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Màu nền trong suốt cho nền ngoài dialog -->
+<!--    <solid android:color="@android:color/transparent" />-->
+
+    <!-- Độ bo tròn của góc -->
+    <corners android:radius="12dp" />
+    <stroke android:color="@color/colorPrimary"></stroke>
+
+    <!-- Đường viền (stroke) của dialog -->
+    <stroke
+        android:width="1dp"
+        android:color="@android:color/darker_gray" />
+
+    <!-- Padding bên trong viền -->
+    <padding
+        android:left="8dp"
+        android:top="8dp"
+        android:right="8dp"
+        android:bottom="8dp"/>
+</shape>
