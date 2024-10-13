@@ -14,22 +14,32 @@
         android:theme="@style/Theme.EatEasy"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.User.PaymentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.User.OderHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.User.DetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.User.AccountActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Admin.DashboardActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Activity.RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.IntroActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".Activity.User.CartActivity"
             android:exported="false" />
@@ -39,7 +49,6 @@
         <activity
             android:name=".Activity.Login_Activity"
             android:exported="false" />
-
     </application>
 
 </manifest>
