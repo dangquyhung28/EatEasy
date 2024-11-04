@@ -32,7 +32,7 @@
                     tools:ignore="HardcodedText,MissingConstraints" />
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/tv_nameAccount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Quý Hưng"
@@ -79,7 +79,7 @@
                     tools:ignore="InefficientWeight">
 
                     <EditText
-                        android:id="@+id/editTextText"
+                        android:id="@+id/edtSearchFood"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
