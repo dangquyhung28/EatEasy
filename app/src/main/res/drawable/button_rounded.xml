@@ -1,6 +1,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Màu nền của button -->
-    <solid android:color="@color/colorPrimary" />
+    
 
     <!-- Độ bo góc -->
     <corners android:radius="16dp" />
@@ -13,7 +13,5 @@
         android:bottom="10dp" />
 
     <!-- Độ dày và màu của viền (nếu cần) -->
-    <stroke
-        android:width="2dp"
-        android:color="@android:color/white" />
+
 </shape>

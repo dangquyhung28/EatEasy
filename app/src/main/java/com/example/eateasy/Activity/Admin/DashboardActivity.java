@@ -57,8 +57,6 @@ public class DashboardActivity extends AppCompatActivity {
 
         } else if (itemId==R.id.nav_order) {
             selectedFragment = new OrderFragment();
-
-
         } else if (itemId==R.id.nav_product) {
             selectedFragment = new ProductFragment();
 

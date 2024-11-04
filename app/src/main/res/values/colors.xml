@@ -7,8 +7,12 @@
     <color name="grey">#F5F5F5</color>
 
     <!-- test mau -->
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">#F75564</color>
+    <color name="colorPrimaryDark">#2E4058</color>
+    <color name="colorAccent">#F5F5F5</color>
+
+    <color name="tab_unselected_text_color">#808080</color>
+    <color name="tab_selected_text_color">#000000</color>
+    <color name="tab_indicator_color">#FF0000</color>
 
 </resources>

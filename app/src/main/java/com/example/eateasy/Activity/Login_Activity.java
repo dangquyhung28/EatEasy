@@ -49,13 +49,13 @@ public class Login_Activity extends AppCompatActivity {
                 String password = edtPass.getText().toString();
 
                 // Kiểm tra tài khoản admin
-                if (username.equals("dangquyhung") && password.equals("123")) {
+                if (username !=null && password != null) {
                     // Chuyển đến trang Admin
                     Intent intent = new Intent(Login_Activity.this, HomeActivity.class);
                     startActivity(intent);
                 } else {
                     // Hiển thị thông báo đăng nhập thất bại
-                    Toast.makeText(Login_Activity.this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login_Activity.this, "Chưa nhập thông tin", Toast.LENGTH_SHORT).show();
                 }
             }
         });
