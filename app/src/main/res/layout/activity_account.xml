@@ -1,6 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< HEAD
+    android:id="@+id/main"
+=======
+>>>>>>> 42eebc0b4ebc2c14d8c409776930628beb301707
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
@@ -13,7 +17,11 @@
         android:layout_height="wrap_content">
 
         <ImageView
+<<<<<<< HEAD
+            android:id="@+id/backBtn_account"
+=======
             android:id="@+id/backBtn"
+>>>>>>> 42eebc0b4ebc2c14d8c409776930628beb301707
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
