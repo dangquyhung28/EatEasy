@@ -19,6 +19,7 @@ public class DetailActivity extends AppCompatActivity {
     TextView titleTxt, priceTxt, rateTxt, timeTxt, descriptionTxt, minusBtn, plusBtn, numTxt, totalTxt;
     RatingBar ratingBar;
     Button addBtn, buyBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +30,9 @@ public class DetailActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        initWidgets(); // Gọi hàm khởi tạo các widget
     }
+
     private void initWidgets() {
         backBtn_detail = findViewById(R.id.backBtn_detail);
         imageViewSP = findViewById(R.id.imageViewSP);
@@ -46,6 +49,5 @@ public class DetailActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.ratingBar);
         addBtn = findViewById(R.id.addBtn);
         buyBtn = findViewById(R.id.buyBtn);
-
     }
 }

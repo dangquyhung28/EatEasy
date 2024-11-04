@@ -21,6 +21,7 @@ public class PaymentActivity extends AppCompatActivity {
     RecyclerView rcvOrder;
     RadioButton payment_cod, payment_credit_card, payment_e_wallet;
     Button btnDatHang;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +34,7 @@ public class PaymentActivity extends AppCompatActivity {
         });
         initWidgets();
     }
+
     private void initWidgets() {
         backBtn_pay = findViewById(R.id.backBtn_history);
         tvTen = findViewById(R.id.tvTen);
