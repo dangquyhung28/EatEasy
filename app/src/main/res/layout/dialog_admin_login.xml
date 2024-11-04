@@ -14,10 +14,11 @@
         android:hint="Tên đăng nhập Admin"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
+        android:textSize="16dp"
         android:textColor="@android:color/black"
         android:inputType="text"
         android:padding="10dp"
-        android:background="@drawable/edit_text_background" />
+        android:background="@drawable/edit_text_selector" />
 
     <EditText
         android:id="@+id/etAdminPassword"
@@ -29,7 +30,8 @@
         android:textColor="@android:color/black"
         android:inputType="textPassword"
         android:padding="10dp"
-        android:background="@drawable/edit_text_background"
+        android:textSize="16dp"
+        android:background="@drawable/edit_text_selector"
         android:layout_marginTop="10dp" />
     <!-- Nút "Đăng nhập" -->
     <Button
@@ -39,8 +41,8 @@
         android:text="Đăng nhập"
         android:textSize="16dp"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="60dp"
-        android:layout_marginLeft="60dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginLeft="40dp"
         android:background="@drawable/button_rounded"
         android:textColor="@android:color/white" />
 </LinearLayout>

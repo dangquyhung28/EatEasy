@@ -34,10 +34,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Tên đăng nhập"
+        android:textSize="16dp"
         android:layout_below="@id/tvLogin"
         android:layout_margin="20dp"
         android:padding="10dp"
-        android:background="@drawable/edit_text_background"
+        android:background="@drawable/edit_text_selector"
         android:textColor="@android:color/black"
         android:textColorHint="@android:color/darker_gray"/>
 
@@ -47,11 +48,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Mật khẩu"
+        android:textSize="16dp"
         android:inputType="textPassword"
         android:layout_below="@id/etUsername"
-        android:layout_margin="20dp"
+        android:layout_margin="16dp"
         android:padding="10dp"
-        android:background="@drawable/edit_text_background"
+        android:background="@drawable/edit_text_selector"
         android:textColor="@android:color/black"
         android:textColorHint="@android:color/darker_gray"/>
     <Button

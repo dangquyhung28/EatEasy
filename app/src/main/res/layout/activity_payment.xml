@@ -93,44 +93,45 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:cardCornerRadius="12dp"
-                    android:cardElevation="6dp">
+                    app:cardCornerRadius="12dp"
+                app:cardElevation="6dp">    
 
-                    <LinearLayout
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RadioGroup
+                        android:id="@+id/payment_methods"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <RadioGroup
-                            android:id="@+id/payment_methods"
-                            android:layout_width="match_parent"
+                        <RadioButton
+                            android:id="@+id/payment_cod"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:text="Thanh toán khi nhận hàng (COD)"
+                            android:textColor="@color/blue_grey" />
 
-                            <RadioButton
-                                android:id="@+id/payment_cod"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Thanh toán khi nhận hàng (COD)"
-                                android:textColor="@color/blue_grey" />
+                        <RadioButton
+                            android:id="@+id/payment_credit_card"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Thẻ tín dụng/thẻ ghi nợ"
+                            android:textColor="@color/blue_grey"/>
 
-                            <RadioButton
-                                android:id="@+id/payment_credit_card"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Thẻ tín dụng/thẻ ghi nợ"
-                                android:textColor="@color/blue_grey"/>
+                        <RadioButton
+                            android:id="@+id/payment_e_wallet"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ví điện tử (MoMo, ZaloPay)"
+                            android:textColor="@color/blue_grey"/>
+                    </RadioGroup>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-                            <RadioButton
-                                android:id="@+id/payment_e_wallet"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Ví điện tử (MoMo, ZaloPay)"
-                                android:textColor="@color/blue_grey"/>
-                        </RadioGroup>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
+        </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

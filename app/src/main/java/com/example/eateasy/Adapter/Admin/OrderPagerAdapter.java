@@ -18,11 +18,11 @@ public class OrderPagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new DonNhapFragment(); // Đơn nhập
+                return new QuanLyDonNhapFragment(); // Đơn nhập
             case 1:
-                return new DonBanFragment();  // Đơn bán
+                return new QuanLyDonBanFragment();  // Đơn bán
             default:
-                return new DonNhapFragment();
+                return new QuanLyDonNhapFragment();
         }
     }
 

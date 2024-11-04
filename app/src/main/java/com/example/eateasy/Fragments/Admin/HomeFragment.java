@@ -85,6 +85,27 @@ public class HomeFragment extends Fragment {
         GridViewAdapter adapter = new GridViewAdapter(getContext(), titles, icons);
         gridView.setAdapter(adapter);
 
+        gridView.setOnItemClickListener(((parent, view1, position, id) -> {
+            Fragment selectedItem = null;
+            switch (position) {
+                case 0:
+                    selectedItem = new ProductFragment();
+                    break;
+                case 1:
+                    selectedItem = new OrderFragment();
+                    break;
+                case 2:
+                    selectedItem = new BaoCaoThongKeFragment();
+                    break;
+                case 3:
+                    selectedItem = new QuanLyKhachHangFragment();
+                    break;
+            }
+            if(selectedItem!=null && getActivity() !=null){
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout_admin, selectedItem).commit();
+            }
+        }));
+
         return view;
     }
 }
