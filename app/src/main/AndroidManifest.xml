@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
+        android:usesCleartextTraffic="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -27,19 +30,21 @@
             android:exported="false" />
         <activity
             android:name=".Activity.Admin.DashboardActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".Activity.RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.IntroActivity"
-            android:exported="false" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Activity.User.CartActivity"
             android:exported="false" />
@@ -48,7 +53,10 @@
             android:exported="false" />
         <activity
             android:name=".Activity.Login_Activity"
-            android:exported="false" />
+            android:exported="false" >
+
+
+        </activity>
     </application>
 
 </manifest>

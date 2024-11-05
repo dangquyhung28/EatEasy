@@ -40,6 +40,7 @@ public class DashboardActivity extends AppCompatActivity {
         initwiget();
 
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
         bottomNavigationView.setOnItemSelectedListener(navListener);

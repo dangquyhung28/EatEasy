@@ -34,7 +34,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void initWidgets() {
-        backBtn_detail = findViewById(R.id.backBtn_detail);
+        backBtn_detail = findViewById(R.id.backBtn);
         imageViewSP = findViewById(R.id.imageViewSP);
         favBtn = findViewById(R.id.favBtn);
         titleTxt = findViewById(R.id.titleTxt);

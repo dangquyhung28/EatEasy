@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "618348663558",
+    "project_id": "project1-8e184",
+    "storage_bucket": "project1-8e184.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:618348663558:android:14fb68fdf17e2a75ab8487",
+        "android_client_info": {
+          "package_name": "com.example.eateasy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIdVPjOD9QJ1LsGPPmi7_5eSIjm4XtAsc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

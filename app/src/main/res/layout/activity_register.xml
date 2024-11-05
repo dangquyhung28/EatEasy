@@ -34,16 +34,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Số điện thoại"
+            android:textSize="16dp"
             android:inputType="phone"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="20dp"
             android:layout_marginRight="20dp"
             android:padding="12dp"
-            android:background="@drawable/edit_text_background"/>
+            android:background="@drawable/edit_text_selector"/>
 
         <!-- Ô Nhập Gmail -->
         <EditText
             android:id="@+id/editText_email"
+            android:textSize="16dp"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="20dp"
             android:layout_marginRight="20dp"
@@ -52,10 +54,11 @@
             android:hint="Email"
             android:inputType="textEmailAddress"
             android:padding="12dp"
-            android:background="@drawable/edit_text_background"/>
+            android:background="@drawable/edit_text_selector"/>
 
         <!-- Ô Nhập Mật Khẩu -->
         <EditText
+            android:textSize="16dp"
             android:id="@+id/editText_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,10 +68,11 @@
             android:layout_marginBottom="20dp"
             android:layout_marginRight="20dp"
             android:padding="12dp"
-            android:background="@drawable/edit_text_background"/>
+            android:background="@drawable/edit_text_selector"/>
 
         <!-- Ô Nhập Lại Mật Khẩu -->
         <EditText
+            android:textSize="16dp"
             android:id="@+id/editText_confirm_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,7 +82,7 @@
             android:layout_marginBottom="20dp"
             android:layout_marginRight="20dp"
             android:padding="12dp"
-            android:background="@drawable/edit_text_background"/>
+            android:background="@drawable/edit_text_selector"/>
 
         <!-- Nút Đăng Ký -->
         <Button
