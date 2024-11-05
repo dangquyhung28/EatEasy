@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,22 +50,71 @@ public class Login_Activity extends AppCompatActivity {
         initwiget();
 
         mAuth = FirebaseAuth.getInstance();
-        String phone = "0335739296";
-        String email = "hung@gmail.com";
-        String pass = "hung123@";
-        mAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//        String phone = "0335739296";
+//        String email = "hung@gmail.com";
+//        String pass = "hung123@";
+//        mAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//            @Override
+//            public void onComplete(@NonNull Task<AuthResult> task) {
+//                if(task.isSuccessful()){
+//                    Log.d("Main", "tạo tài khoản với email thành công");
+//                    FirebaseUser user = mAuth.getCurrentUser();
+//                    Toast.makeText(getApplicationContext(), user.getEmail(), Toast.LENGTH_LONG).show();
+//                }else{
+//                    Log.w("Main", "Tạo tài khoản thất bại", task.getException());
+//                    Toast.makeText(Login_Activity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Log.d("Main", "tạo tài khoản với email thành công");
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    Toast.makeText(getApplicationContext(), user.getEmail(), Toast.LENGTH_LONG).show();
-                }else{
-                    Log.w("Main", "Tạo tài khoản thất bại", task.getException());
-                    Toast.makeText(Login_Activity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                String email = edtUsername.getText().toString().trim();
+                String pass = edtPass.getText().toString().trim();
+                if (email.isEmpty() || pass.isEmpty()) {
+                    Toast.makeText(Login_Activity.this, "Vui lòng nhập đầy đủ email và mật khẩu", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+                // Đăng nhập bằng email và mật khẩu đã nhập
+                mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Đăng nhập thành công
+                            Intent intent = new Intent(Login_Activity.this, HomeActivity.class);
+                            startActivity(intent);
+                            Log.d("Login", "Đăng nhập thành công");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Toast.makeText(getApplicationContext(), "Đăng nhập thành công: " + user.getEmail(), Toast.LENGTH_LONG).show();
+                            // Chuyển đến màn hình chính hoặc thực hiện hành động khác
+                        } else {
+                            // Đăng nhập thất bại
+                            Log.w("Login", "Đăng nhập thất bại", task.getException());
+                            Toast.makeText(Login_Activity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
+
+        btnLogin.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: // Khi nhấn vào
+                        v.animate().scaleX(1.1f).scaleY(1.1f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP: // Khi thả ra
+                    case MotionEvent.ACTION_CANCEL:
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false;
+            }
+        });
+
+
         //Đăng kí test
         txtDangKi.setOnClickListener(new View.OnClickListener() {
             @Override

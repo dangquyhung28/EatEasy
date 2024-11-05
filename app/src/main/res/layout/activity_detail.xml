@@ -24,11 +24,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-<<<<<<< HEAD
                     android:id="@+id/imageViewSP"
-=======
-                    android:id="@+id/imageView"
->>>>>>> 42eebc0b4ebc2c14d8c409776930628beb301707
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
                     android:scaleType="centerCrop"
@@ -41,35 +37,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-<<<<<<< HEAD
-                    app:layout_constraintBottom_toBottomOf="@+id/imageViewSP"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageViewSP"
-                    tools:srcCompat="@drawable/favorite_white" />
+                app:layout_constraintBottom_toBottomOf="@+id/imageViewSP"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewSP"
+                tools:srcCompat="@drawable/favorite_white" />
 
-                <ImageView
-                    android:id="@+id/backBtn_detail"
-=======
-                    app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView"
-                    tools:srcCompat="@drawable/favorite_white" />
-
+<!--                <ImageView-->
+<!--                    android:id="@+id/backBtn_detail"-->
+<!--                    app:layout_constraintBottom_toBottomOf="@+id/imageViewSP"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/imageViewSP"-->
+<!--                    tools:srcCompat="@drawable/icon_arrow" />-->
                 <ImageView
                     android:id="@+id/backBtn"
->>>>>>> 42eebc0b4ebc2c14d8c409776930628beb301707
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="24dp"
-                    android:padding="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-<<<<<<< HEAD
-                    tools:srcCompat="@drawable/icon_arrow" />
-=======
-                    tools:srcCompat="@drawable/arrow" />
->>>>>>> 42eebc0b4ebc2c14d8c409776930628beb301707
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:padding="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                tools:srcCompat="@drawable/icon_arrow" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout

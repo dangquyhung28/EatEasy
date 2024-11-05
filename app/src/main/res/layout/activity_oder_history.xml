@@ -13,20 +13,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
-<<<<<<< HEAD
             android:id="@+id/backBtn_history"
-=======
-            android:id="@+id/backBtn"
->>>>>>> 42eebc0b4ebc2c14d8c409776930628beb301707
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
             tools:ignore="MissingConstraints"
-<<<<<<< HEAD
             tools:srcCompat="@drawable/icon_arrow" />
-=======
-            tools:srcCompat="@drawable/arrow" />
->>>>>>> 42eebc0b4ebc2c14d8c409776930628beb301707
+
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
