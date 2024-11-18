@@ -1,108 +1,189 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#FAFAFA">
+    android:layout_height="match_parent"
+    android:background="#FAFAFA"
+    android:padding="16dp">
 
-    <!-- Tên sản phẩm -->
-    <EditText
-        android:id="@+id/etTenSP"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Tên sản phẩm"
-        android:textColor="#333333"
-        android:textSize="16sp"
-        android:backgroundTint="#D1C4E9"
-        android:padding="10dp"
-        android:layout_marginBottom="12dp" />
-
-    <!-- Mô tả sản phẩm -->
-    <EditText
-        android:id="@+id/etMoTa"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Mô tả"
-        android:textColor="#333333"
-        android:textSize="16sp"
-        android:backgroundTint="#D1C4E9"
-        android:padding="10dp"
-        android:layout_marginBottom="12dp" />
-
-    <!-- Giá bán -->
-    <EditText
-        android:id="@+id/etGiaBan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Giá bán"
-        android:inputType="numberDecimal"
-        android:textColor="#333333"
-        android:textSize="16sp"
-        android:backgroundTint="#D1C4E9"
-        android:padding="10dp"
-        android:layout_marginBottom="12dp" />
-
-    <!-- Giá nhập -->
-    <EditText
-        android:id="@+id/etGiaNhap"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Giá nhập"
-        android:inputType="numberDecimal"
-        android:textColor="#333333"
-        android:textSize="16sp"
-        android:backgroundTint="#D1C4E9"
-        android:padding="10dp"
-        android:layout_marginBottom="12dp" />
-
-    <!-- Mã danh mục (Dropdown) -->
-    <Spinner
-        android:id="@+id/spinnerMaDanhMuc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:backgroundTint="#D1C4E9" />
-
-    <!-- Số lượng -->
-    <EditText
-        android:id="@+id/etSoLuong"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Số lượng"
-        android:inputType="number"
-        android:textColor="#333333"
-        android:textSize="16sp"
-        android:backgroundTint="#D1C4E9"
-        android:padding="10dp"
-        android:layout_marginBottom="12dp" />
-
-    <!-- URL ảnh sản phẩm và nút chọn ảnh -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="16dp">
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thông Tin Sản Phẩm"
+            android:textColor="#333333"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Tên sản phẩm -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên sản phẩm"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp" />
 
         <EditText
-            android:id="@+id/etAnhSanPham"
-            android:layout_width="0dp"
+            android:id="@+id/etTenSP"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="URL ảnh sản phẩm"
+            android:hint="Nhập tên sản phẩm"
             android:textColor="#333333"
             android:textSize="16sp"
             android:backgroundTint="#D1C4E9"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:layout_marginBottom="12dp" />
 
-        <Button
-            android:id="@+id/btnChonAnh"
+        <!-- Mô tả sản phẩm -->
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chọn ảnh"
-            android:backgroundTint="#9575CD"
-            android:textColor="#FFFFFF"
-            android:layout_marginStart="8dp"
-            android:padding="10dp" />
-    </LinearLayout>
+            android:text="Mô tả sản phẩm"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp" />
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/etMoTa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập mô tả sản phẩm"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:backgroundTint="#D1C4E9"
+            android:padding="10dp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Giá bán -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giá bán"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/etGiaBan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập giá bán"
+            android:inputType="numberDecimal"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:backgroundTint="#D1C4E9"
+            android:padding="10dp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Giá nhập -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giá nhập"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/etGiaNhap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập giá nhập"
+            android:inputType="numberDecimal"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:backgroundTint="#D1C4E9"
+            android:padding="10dp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Mã danh mục -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mã danh mục"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp" />
+
+        <Spinner
+            android:id="@+id/spinnerMaDanhMuc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="#D1C4E9" />
+
+        <!-- Số lượng -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Số lượng"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/etSoLuong"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập số lượng"
+            android:inputType="number"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:backgroundTint="#D1C4E9"
+            android:padding="10dp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Hiển thị ảnh sản phẩm -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ảnh sản phẩm"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp" />
+
+        <ImageView
+            android:id="@+id/ivAnhSanPham"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_product_management"
+        android:layout_marginBottom="16dp" />
+
+        <!-- Nút chọn ảnh -->
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etAnhSanPham"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Đường dẫn ảnh"
+                android:textColor="#333333"
+                android:textSize="16sp"
+                android:backgroundTint="#D1C4E9"
+                android:padding="10dp" />
+
+            <Button
+                android:id="@+id/btnChonAnh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chọn ảnh"
+                android:backgroundTint="#9575CD"
+                android:textColor="#FFFFFF"
+                android:padding="10dp"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

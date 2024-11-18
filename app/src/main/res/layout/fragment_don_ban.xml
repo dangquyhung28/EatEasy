@@ -1,92 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
-    <!-- Sản phẩm bán -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sản phẩm bán" />
-
-    <EditText
-        android:id="@+id/edtSPBan"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <!-- Số lượng -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Số lượng" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nhập thông tin sản phẩm"
+            android:textSize="18sp"
+            android:paddingBottom="8dp" />
 
-    <EditText
-        android:id="@+id/edtSoLuongBan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number" />
+        <EditText
+            android:id="@+id/edtTenSanPham"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập tên sản phẩm" />
 
-    <!-- Đơn giá bán -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Đơn giá bán" />
+        <EditText
+            android:id="@+id/edtGiaBan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập giá bán"
+            android:inputType="numberDecimal" />
 
-    <EditText
-        android:id="@+id/edtDonGiaBan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal" />
+        <EditText
+            android:id="@+id/edtSoLuongMua"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập số lượng"
+            android:inputType="number" />
 
-    <!-- Thành tiền -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Thành tiền" />
+        <EditText
+            android:id="@+id/edtGiamGia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập giảm giá"
+            android:inputType="numberDecimal" />
 
-    <TextView
-        android:id="@+id/txtThanhTien"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:textColor="@android:color/holo_green_dark" />
+        <Button
+            android:id="@+id/btnAddProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thêm sản phẩm"
+            android:layout_gravity="center"
+            android:paddingTop="16dp" />
 
-    <!-- Giảm giá -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Giảm giá (%)" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Danh sách sản phẩm"
+            android:textSize="18sp"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
 
-    <EditText
-        android:id="@+id/edtGiamGiaBan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal" />
+        <TableLayout
+            android:id="@+id/tableProducts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="1"
+            android:divider="?android:attr/dividerHorizontal"
+            android:showDividers="middle">
 
-    <!-- Tổng tiền -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tổng tiền" />
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/txtTongTien"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:textColor="@android:color/holo_red_dark" />
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="*">
 
-    <!-- Nút Tạo hóa đơn -->
-    <Button
-        android:id="@+id/btnTaoHoaDon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Tạo hóa đơn"
-        android:backgroundTint="@android:color/holo_blue_dark"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="16dp" />
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tên sản phẩm"
+                            android:gravity="start"
+                            android:paddingEnd="8dp" />
 
-</LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Giá bán"
+                            android:gravity="start"
+                            android:paddingEnd="8dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Số lượng mua"
+                            android:gravity="start"
+                            android:paddingEnd="8dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Giảm giá (%)"
+                            android:gravity="start"
+                            android:paddingEnd="8dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Thành tiền"
+                            android:gravity="start" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Xóa"
+                            android:gravity="center"
+                            android:paddingStart="8dp" />
+                    </TableRow>
+                </TableLayout>
+            </HorizontalScrollView>
+
+            <!-- Product rows will be added dynamically here -->
+        </TableLayout>
+
+        <TextView
+            android:id="@+id/txtTongTien"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tổng tiền: 0"
+            android:textSize="18sp"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
+
+        <Button
+            android:id="@+id/btnCreateInvoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tạo hóa đơn"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+
+</ScrollView>

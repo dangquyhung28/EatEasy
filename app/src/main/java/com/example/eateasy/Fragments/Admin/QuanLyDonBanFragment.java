@@ -3,6 +3,7 @@ package com.example.eateasy.Fragments.Admin;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,7 +69,18 @@ public class QuanLyDonBanFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_quan_ly_don_ban, container, false);
 
         //anh xa
-        btnAddHDBan = view.findViewById(R.id.fab_add_product);
+        btnAddHDBan = view.findViewById(R.id.fab_add_HDB);
+        btnAddHDBan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Khi người dùng nhấn vào nút, thay thế fragment hiện tại bằng DonBanFragment
+                DonBanFragment donBanFragment = new DonBanFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_layout_admin, donBanFragment); // 'fragment_container' là ID của container chứa fragment
+                transaction.addToBackStack(null); // Thêm vào back stack để có thể quay lại fragment cũ
+                transaction.commit();
+            }
+        });
         return view;
 
     }

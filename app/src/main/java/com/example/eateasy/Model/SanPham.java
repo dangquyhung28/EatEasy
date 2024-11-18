@@ -25,7 +25,18 @@ public class SanPham {
     private int soLuong;
 
     @SerializedName("AnhSanPham")
-    private String anhSanPham;
+    private String tenFileAnh;
+
+    public SanPham(String maSP, String tenSP, String moTa, float giaBan, float giaNhap, int soLuong, String maDanhMuc, String anhSanPham) {
+        this.maSP = maSP;
+        this.tenSP = tenSP;
+        this.moTa = moTa;
+        this.giaBan = giaBan;
+        this.giaNhap = giaNhap;
+        this.soLuong = soLuong;
+        this.maDanhMuc = maDanhMuc;
+        this.tenFileAnh = anhSanPham;
+    }
 
     // Getters and Setters
     public String getMaSP() { return maSP; }
@@ -49,6 +60,12 @@ public class SanPham {
     public int getSoLuong() { return soLuong; }
     public void setSoLuong(int soLuong) { this.soLuong = soLuong; }
 
-    public String getAnhSanPham() { return anhSanPham; }  // Getter cho thuộc tính ảnh
-    public void setAnhSanPham(String anhSanPham) { this.anhSanPham = anhSanPham; }  // Setter cho thuộc tính ảnh
+    public String getAnhSanPham() { return tenFileAnh; }  // Getter cho thuộc tính ảnh
+    public void setAnhSanPham(String anhSanPham) { this.tenFileAnh = anhSanPham; }  // Setter cho thuộc tính ảnh
+
+    @Override
+    public String toString() {
+        // Trả về tên sản phẩm để hiển thị trong Spinner
+        return tenSP;
+    }
 }
