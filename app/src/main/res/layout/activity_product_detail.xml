@@ -1,0 +1,121 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="@android:color/white"
+    android:layout_marginBottom="8dp">
+
+    <!-- Hình ảnh sản phẩm -->
+    <ImageView
+        android:id="@+id/product_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="16dp"
+        android:scaleType="centerCrop"
+       />
+
+    <!-- Tên sản phẩm -->
+    <TextView
+        android:id="@+id/tenSPTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/product_image"
+        android:layout_alignTop="@id/product_image"
+        android:text="Tên sản phẩm"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black" />
+
+    <!-- Giá bán -->
+    <TextView
+        android:id="@+id/giaBanTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tenSPTextView"
+        android:layout_toEndOf="@id/product_image"
+        android:text="Giá bán"
+        android:textSize="14sp"
+        android:textColor="@android:color/holo_red_dark" />
+
+    <!-- Giá nhập -->
+    <TextView
+        android:id="@+id/giaNhapTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/giaBanTextView"
+        android:layout_toEndOf="@id/product_image"
+        android:text="Giá nhập"
+        android:textSize="14sp"
+        android:textColor="@android:color/black" />
+
+    <!-- Mô tả -->
+    <TextView
+        android:id="@+id/moTaTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/giaNhapTextView"
+        android:layout_toEndOf="@id/product_image"
+        android:text="Mô tả sản phẩm"
+        android:textSize="12sp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:textColor="@android:color/darker_gray" />
+
+    <!-- Số lượng -->
+    <TextView
+        android:id="@+id/soLuongTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/moTaTextView"
+        android:layout_toEndOf="@id/product_image"
+        android:text="Số lượng"
+        android:textSize="12sp"
+        android:textColor="@android:color/black" />
+
+    <!-- Mã danh mục -->
+    <TextView
+        android:id="@+id/maDanhMucTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/soLuongTextView"
+        android:layout_toEndOf="@id/product_image"
+        android:text="Mã danh mục"
+        android:textSize="12sp"
+        android:textColor="@android:color/black" />
+
+    <!-- Nút Close -->
+    <ImageView
+        android:id="@+id/closeButton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/icon_return"
+        android:padding="8dp"
+        android:background="@drawable/circle_background" />
+
+    <!-- Nút Edit -->
+    <ImageView
+        android:id="@+id/iconEdit"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="64dp"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/icon_update_16"
+        android:padding="8dp"
+        android:background="@drawable/circle_background" />
+
+    <!-- Nút Delete -->
+    <ImageView
+        android:id="@+id/iconDelete"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/icon_delete_16"
+        android:padding="8dp"
+        android:background="@drawable/circle_background" />
+</RelativeLayout>

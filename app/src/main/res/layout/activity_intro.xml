@@ -1,40 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/intro"
-    android:background="@drawable/background_gradient"> <!-- Sử dụng gradient làm background -->
+    android:layout_height="match_parent">
 
+    <!-- Ảnh nền -->
+    <ImageView
+        android:id="@+id/splashImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/intro_background"
+        android:scaleType="centerCrop"/>
 
+    <!-- Logo -->
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/logo_app"
+        android:visibility="gone"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="100dp"/>
+
+    <!-- Tên ứng dụng -->
     <TextView
-        android:id="@+id/tvWelcome"
+        android:id="@+id/appName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to"
-        android:textSize="30sp"
-        android:textStyle="bold|italic"
-        android:textColor="@android:color/white"
-        android:layout_centerInParent="true"/>
-    <TextView
-        android:id="@+id/tvEatEasy"
-        android:layout_below="@+id/tvWelcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="EatEasy"
-        android:textSize="50sp"
-        android:textStyle="bold|normal"
-        android:textColor="@android:color/white"
-        android:layout_centerInParent="true"/>
-
+        android:text=""
+        android:textSize="24sp"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/logo"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:layout_marginTop="16dp"/>
 
     <Button
-        android:id="@+id/btnStart"
+        android:id="@+id/startButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start"
+        android:text="Bắt đầu"
+        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"
-        android:textColor="@android:color/white"
-        android:backgroundTint="#494949"/>
+        android:layout_marginBottom="50dp"
+        android:visibility="gone" />
 </RelativeLayout>

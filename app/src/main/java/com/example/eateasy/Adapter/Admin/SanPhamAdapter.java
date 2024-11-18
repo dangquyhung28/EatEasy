@@ -1,15 +1,19 @@
 package com.example.eateasy.Adapter.Admin;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.eateasy.Fragments.Admin.ProductDetailFragment;
 import com.example.eateasy.Model.SanPham;
 import com.example.eateasy.R;
 
@@ -44,6 +48,32 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
                 .placeholder(R.drawable.avatar) // Hình ảnh mặc định trong trường hợp không tải được
                 .error(R.drawable.avatar) // Hình ảnh hiển thị khi có lỗi
                 .into(holder.imageView);
+
+        holder.itemView.setOnClickListener(v -> {
+            // Tạo một instance của ProductDetailFragment
+            ProductDetailFragment detailFragment = new ProductDetailFragment();
+
+            // Truyền dữ liệu qua Bundle
+            Bundle bundle = new Bundle();
+            bundle.putString("maSP", sanPham.getMaSP());
+            bundle.putString("TenSP", sanPham.getTenSP());
+            bundle.putString("MoTa", sanPham.getMoTa());
+            bundle.putFloat("GiaBan", sanPham.getGiaBan());
+            bundle.putFloat("GiaNhap", sanPham.getGiaNhap());
+            bundle.putInt("SoLuong", sanPham.getSoLuong());
+            bundle.putString("MaDanhMuc", sanPham.getMaDanhMuc());
+            bundle.putString("AnhSanPham", sanPham.getAnhSanPham());
+
+            detailFragment.setArguments(bundle);
+
+            // Chuyển sang fragment chi tiết
+            FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_layout_admin, detailFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+
 
     }
 

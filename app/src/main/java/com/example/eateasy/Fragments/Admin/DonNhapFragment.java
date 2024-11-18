@@ -1,66 +1,203 @@
 package com.example.eateasy.Fragments.Admin;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.eateasy.Adapter.Admin.SanPhamAdapter;
+import com.example.eateasy.Model.SanPham;
 import com.example.eateasy.R;
+import com.example.eateasy.Retrofit.ProductsInterface;
+import com.example.eateasy.Retrofit.ProductsUtils;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DonNhapFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.Calendar;
+
+import javax.annotation.Nullable;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class DonNhapFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private TableLayout tableSanPham;
+    private TextView tvTongTien;
+    private float tongTien = 0;
+    ProductsInterface productsInterface;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public DonNhapFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DonNhapFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DonNhapFragment newInstance(String param1, String param2) {
-        DonNhapFragment fragment = new DonNhapFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_don_nhap, container, false);
+
+        EditText etMaNV = view.findViewById(R.id.etMaNV);
+        Spinner spMaNCC = view.findViewById(R.id.spMaNCC);
+        EditText etNgayLap = view.findViewById(R.id.etNgayLap);
+        Button btnThemSanPham = view.findViewById(R.id.btnThemSanPham);
+        Button btnGuiHoaDon = view.findViewById(R.id.btnGuiHoaDon);
+        tableSanPham = view.findViewById(R.id.tableSanPham);
+        tvTongTien = view.findViewById(R.id.tvTongTien);
+        productsInterface = ProductsUtils.getProdutsService();
+
+
+        // Thiết lập chọn ngày
+        etNgayLap.setOnClickListener(v -> showDatePickerDialog(etNgayLap));
+
+        // Sự kiện khi bấm nút thêm sản phẩm
+        btnThemSanPham.setOnClickListener(v -> showAddProductDialog());
+
+        // Sự kiện khi bấm nút tạo hóa đơn
+        btnGuiHoaDon.setOnClickListener(v -> {
+            // Gửi hóa đơn xử lý ở đây
+            Toast.makeText(requireContext(), "Hóa đơn đã được tạo thành công!", Toast.LENGTH_SHORT).show();
+        });
+
+        return view;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_don_nhap, container, false);
+    // Hiển thị Dialog thêm sản phẩm
+    private void showAddProductDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Thêm sản phẩm");
+
+        // Inflate layout của dialog
+        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_product, null);
+        builder.setView(dialogView);
+
+        Spinner spTenSP = dialogView.findViewById(R.id.spTenSP);
+        TextView tvGiaNhap = dialogView.findViewById(R.id.tvGiaNhap);
+        EditText etSoLuong = dialogView.findViewById(R.id.etSoLuong);
+        EditText etGiamGia = dialogView.findViewById(R.id.etGiamGia);
+        Button btnAddProduct = dialogView.findViewById(R.id.btnAddProduct);
+
+        ArrayList<SanPham> sanPhamArrayList = new ArrayList<>();
+        ArrayAdapter<SanPham> spinnerAdapter = new ArrayAdapter<>(requireContext(),
+                android.R.layout.simple_spinner_item, sanPhamArrayList);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spTenSP.setAdapter(spinnerAdapter);
+
+        productsInterface.getAllSanPham().enqueue(new Callback<ArrayList<SanPham>>() {
+            @Override
+            public void onResponse(Call<ArrayList<SanPham>> call, Response<ArrayList<SanPham>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    sanPhamArrayList.clear();
+                    sanPhamArrayList.addAll(response.body());
+                    spinnerAdapter.notifyDataSetChanged(); // Thông báo dữ liệu đã thay đổi
+                } else {
+                    Toast.makeText(getContext(), "Không tải được danh sách sản phẩm", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<SanPham>> call, Throwable t) {
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        spTenSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                SanPham selectedProduct = (SanPham) parent.getItemAtPosition(position);
+                tvGiaNhap.setText(String.format("Giá nhập: %.2f VNĐ", selectedProduct.getGiaNhap()));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                tvGiaNhap.setText("");
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+
+        btnAddProduct.setOnClickListener(v -> {
+            SanPham selectedProduct = (SanPham) spTenSP.getSelectedItem();
+            String soLuongStr = etSoLuong.getText().toString().trim();
+            String giamGiaStr = etGiamGia.getText().toString().trim();
+
+            if (soLuongStr.isEmpty() || giamGiaStr.isEmpty()) {
+                Toast.makeText(requireContext(), "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            int soLuong = Integer.parseInt(soLuongStr);
+            float giamGia = Float.parseFloat(giamGiaStr);
+            float thanhTien = (selectedProduct.getGiaNhap() * soLuong) - giamGia;
+
+            TableRow row = new TableRow(requireContext());
+            row.addView(createTextView(selectedProduct.getTenSP()));
+            row.addView(createTextView(String.format("%.2f", selectedProduct.getGiaNhap())));
+            row.addView(createTextView(String.format("%.2f", giamGia)));
+            row.addView(createTextView(String.format("%.2f", thanhTien)));
+            tableSanPham.addView(row);
+
+            tongTien += thanhTien; // Cập nhật tổng tiền
+            tvTongTien.setText(String.format("Tổng tiền: %.2f VNĐ", tongTien));
+
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
+
+    // Tạo TextView trong bảng
+    private TextView createTextView(String text) {
+        TextView textView = new TextView(requireContext());
+        textView.setText(text);
+        textView.setPadding(8, 8, 8, 8);
+        return textView;
+    }
+
+    // Dữ liệu giả lập danh sách nhà cung cấp
+    private ArrayList<String> getDanhSachNCC() {
+        ArrayList<String> nccList = new ArrayList<>();
+        nccList.add("NCC01");
+        nccList.add("NCC02");
+        nccList.add("NCC03");
+        return nccList;
+    }
+
+    // Dữ liệu giả lập danh sách sản phẩm
+    private ArrayList<SanPham> getDanhSachSanPham() {
+        ArrayList<SanPham> sanPhamList = new ArrayList<>();
+
+        return sanPhamList;
+    }
+
+    // Hiển thị DatePickerDialog
+    private void showDatePickerDialog(EditText etNgayLap) {
+        // Lấy ngày hiện tại để hiển thị trong DatePicker
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // Hiển thị DatePickerDialog
+        DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(),
+                (view, selectedYear, selectedMonth, selectedDay) -> {
+                    String date = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay);
+                    etNgayLap.setText(date); // Gán giá trị ngày vào EditText
+                }, year, month, day);
+
+        datePickerDialog.show(); // Hiển thị dialog
+    }
+
 }

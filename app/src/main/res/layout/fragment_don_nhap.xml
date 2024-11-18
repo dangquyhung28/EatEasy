@@ -1,56 +1,123 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:fillViewport="true">
 
-    <!-- Số lượng sản phẩm -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Số lượng sản phẩm" />
-
-    <EditText
-        android:id="@+id/edtSoLuong"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="number" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <!-- Giá nhập -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Giá nhập" />
+        <!-- Nhập thông tin hóa đơn -->
+        <EditText
+            android:id="@+id/etMaNV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Mã nhân viên"
+            android:inputType="text" />
 
-    <EditText
-        android:id="@+id/edtGiaNhap"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal" />
+        <Spinner
+            android:id="@+id/spMaNCC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="8dp"
+            android:background="@android:drawable/btn_dropdown" />
 
-    <!-- Giảm giá -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Giảm giá (%)" />
+        <EditText
+            android:id="@+id/etNgayLap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Chọn ngày lập hóa đơn"
+            android:focusable="false"
+            android:clickable="true"
+            android:layout_marginTop="8dp"
+            android:padding="8dp" />
 
-    <EditText
-        android:id="@+id/edtGiamGia"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal" />
+        <!-- Bảng hiển thị sản phẩm -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Danh sách sản phẩm"
+            android:textStyle="bold"
+            android:paddingTop="16dp" />
 
-    <!-- Nhà cung cấp -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nhà cung cấp" />
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/edtNhaCungCap"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text" />
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
 
-</LinearLayout>
+                <TableLayout
+                    android:id="@+id/tableSanPham"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="1">
+
+                    <!-- Header row -->
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tên SP"
+                            android:padding="8dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Giá bán"
+                            android:padding="8dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Giảm giá"
+                            android:padding="8dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Thành tiền"
+                            android:padding="8dp"
+                            android:textStyle="bold" />
+                    </TableRow>
+
+
+                </TableLayout>
+            </ScrollView>
+        </HorizontalScrollView>
+
+
+        <!-- Thêm sản phẩm -->
+        <Button
+            android:id="@+id/btnThemSanPham"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:text="+" />
+
+        <!-- Tổng tiền -->
+        <TextView
+            android:id="@+id/tvTongTien"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tổng tiền: 0 VNĐ"
+            android:textStyle="bold"
+            android:paddingTop="16dp"
+            android:textColor="#FF0000" />
+
+        <!-- Gửi hóa đơn -->
+        <Button
+            android:id="@+id/btnGuiHoaDon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Tạo hóa đơn" />
+    </LinearLayout>
+</ScrollView>

@@ -49,5 +49,6 @@ public class DetailActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.ratingBar);
         addBtn = findViewById(R.id.addBtn);
         buyBtn = findViewById(R.id.buyBtn);
+
     }
 }
