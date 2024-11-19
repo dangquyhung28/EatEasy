@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,23 +19,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/icon_search"
-            android:contentDescription="Search Icon" />
-
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/search_product_admin"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:hint="Tìm kiếm sản phẩm"
-            android:textColor="@android:color/black"
-            android:textColorHint="@android:color/darker_gray"
-            android:paddingStart="8dp"
-            android:background="@null" />
+            android:inputType="text"
+            android:padding="8dp"
+            android:background="@drawable/grey_backgound"
+            android:drawableStart="@drawable/icon_search"
+            android:completionThreshold="1" />
     </LinearLayout>
 
     <!-- TextView Tổng số sản phẩm -->
@@ -56,21 +50,23 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="8dp"
+        android:clipToPadding="false"
         app:layout_constraintTop_toBottomOf="@id/tv_total_products"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/fab_add_HDB" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <!-- FloatingActionButton cho các tùy chọn thêm sản phẩm -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add_HDB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:id="@+id/fab_add_Pro"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_margin="8dp"
         android:src="@drawable/icon_plus"
         android:contentDescription="Thêm sản phẩm"
+        app:rippleColor="#88FFFFFF"
         android:tint="@android:color/white"
-        android:backgroundTint="@color/colorAccent"
+        android:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

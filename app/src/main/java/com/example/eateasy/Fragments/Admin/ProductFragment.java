@@ -5,22 +5,24 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,10 +37,10 @@ import com.example.eateasy.Adapter.Admin.SanPhamAdapter;
 import com.example.eateasy.Model.DanhMuc;
 import com.example.eateasy.Model.SanPham;
 import com.example.eateasy.R;
-import com.example.eateasy.Retrofit.CategoryInterface;
-import com.example.eateasy.Retrofit.CategoryUtils;
-import com.example.eateasy.Retrofit.ProductsInterface;
-import com.example.eateasy.Retrofit.ProductsUtils;
+import com.example.eateasy.Retrofit.Interface.DanhMucInterface;
+import com.example.eateasy.Retrofit.Utils.DanhMucUtils;
+import com.example.eateasy.Retrofit.Interface.SanPhamInterface;
+import com.example.eateasy.Retrofit.Utils.SanPhamUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
@@ -51,29 +53,35 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProductFragment extends Fragment {
-    ProductsInterface productsInterface;
+    SanPhamInterface productsInterface;
     RecyclerView recyclerView;
+    TextView sl;
     SanPhamAdapter adapter;
     private HashMap<String, String> danhMucMap;
     ArrayList<SanPham> sanPhamList = new ArrayList<>();
     FloatingActionButton fabAddProduct;
-    CategoryInterface categoryInterface;
+    DanhMucInterface categoryInterface;
     private static final int REQUEST_CODE_STORAGE_PERMISSION = 1;
     private static final int REQUEST_CODE_SELECT_IMAGE = 2;
+    private ArrayList<SanPham> originalSanPhamList = new ArrayList<>();
     private EditText etAnhSanPham;
+    private AutoCompleteTextView searchProduct;
+
 
     @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_product, container, false);
-        fabAddProduct = view.findViewById(R.id.fab_add_HDB);
-        productsInterface = ProductsUtils.getProdutsService();
+        fabAddProduct = view.findViewById(R.id.fab_add_Pro);
+        productsInterface = SanPhamUtils.getProdutsService();
+        sl = view.findViewById(R.id.tv_total_products);
+        searchProduct = view.findViewById(R.id.search_product_admin);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new SanPhamAdapter(getContext(), sanPhamList);
         recyclerView.setAdapter(adapter);
-        categoryInterface = CategoryUtils.getCategoryService();
+        categoryInterface = DanhMucUtils.getCategoryService();
         //load product
         productsInterface.getAllSanPham().enqueue(new Callback<ArrayList<SanPham>>() {
             @Override
@@ -82,7 +90,11 @@ public class ProductFragment extends Fragment {
                     sanPhamList.clear();
                     sanPhamList.addAll(response.body());
                     adapter.notifyDataSetChanged();
-                    Toast.makeText(getContext(), "Dữ liệu được cập nhật!", Toast.LENGTH_SHORT).show();
+                    sl.setText("Tổng số sản phẩm: "+sanPhamList.size());
+                    originalSanPhamList.clear();
+                    originalSanPhamList.addAll(response.body());
+                    setupAutoComplete(searchProduct, sanPhamList);
+                    Toast.makeText(getContext(), "Danh sách sản phẩm", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -91,10 +103,58 @@ public class ProductFragment extends Fragment {
                 Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+        sl.setText(String.valueOf(sanPhamList.size()));
         fabAddProduct.setOnClickListener(v -> showAddProduct());
 
         return view;
     }
+    // Hàm thiết lập AutoComplete
+    private void setupAutoComplete(AutoCompleteTextView searchProduct, ArrayList<SanPham> sanPhamList) {
+        ArrayList<String> productNames = new ArrayList<>();
+        for (SanPham product : sanPhamList) {
+            productNames.add(product.getTenSP()); // Thêm tên sản phẩm vào danh sách gợi ý
+        }
+
+        ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_dropdown_item_1line, productNames);
+
+        searchProduct.setAdapter(autoCompleteAdapter);
+
+        // Xử lý khi người dùng chọn một sản phẩm từ gợi ý
+        searchProduct.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedProductName = (String) parent.getItemAtPosition(position);
+            filterProduct(selectedProductName);
+        });
+
+        // Lọc danh sách khi người dùng nhập từ khóa
+        searchProduct.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterProduct(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+    }
+    private void filterProduct(String keyword) {
+        sanPhamList.clear(); // Xóa danh sách hiện tại
+
+        for (SanPham product : originalSanPhamList) { // Duyệt qua danh sách gốc
+            if (product.getTenSP().toLowerCase().contains(keyword.toLowerCase())) {
+                sanPhamList.add(product); // Thêm sản phẩm phù hợp vào danh sách
+            }
+        }
+
+        adapter.notifyDataSetChanged(); // Cập nhật giao diện RecyclerView
+    }
+
+
 
     //edit product
 

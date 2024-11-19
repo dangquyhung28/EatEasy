@@ -2,7 +2,6 @@ package com.example.eateasy.Activity.User;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -10,26 +9,21 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.eateasy.Activity.Login_Activity;
-import com.example.eateasy.Adapter.Admin.SanPhamAdapter;
 import com.example.eateasy.Adapter.User.BestFoodAdapter;
 import com.example.eateasy.Adapter.User.CategoryAdapter;
 import com.example.eateasy.Model.DanhMuc;
 import com.example.eateasy.Model.SanPham;
 import com.example.eateasy.R;
-import com.example.eateasy.Retrofit.CategoryInterface;
-import com.example.eateasy.Retrofit.CategoryUtils;
-import com.example.eateasy.Retrofit.ProductsInterface;
-import com.example.eateasy.Retrofit.ProductsUtils;
+import com.example.eateasy.Retrofit.Interface.DanhMucInterface;
+import com.example.eateasy.Retrofit.Utils.DanhMucUtils;
+import com.example.eateasy.Retrofit.Interface.SanPhamInterface;
+import com.example.eateasy.Retrofit.Utils.SanPhamUtils;
 
 import java.util.ArrayList;
 
@@ -44,10 +38,10 @@ public class HomeActivity extends AppCompatActivity {
     private ImageView logoutBtn, filterBtn, searchBtn, cartBtn;
     private RecyclerView bestFoodView, suggestionsView;
     private Spinner locationSp, timeSp, priceSp;
-    ProductsInterface productsInterface;
+    SanPhamInterface productsInterface;
     BestFoodAdapter bestFoodAdapter;
     ArrayList<SanPham> sanPhamList = new ArrayList<>();
-    CategoryInterface categoryInterface;
+    DanhMucInterface categoryInterface;
     ArrayList<DanhMuc> danhMuclist = new ArrayList<>();
     CategoryAdapter categoryAdapter;
 
@@ -63,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
         bestFoodView.setLayoutManager(new LinearLayoutManager(HomeActivity.this, LinearLayoutManager.HORIZONTAL, false));
         bestFoodAdapter = new BestFoodAdapter(HomeActivity.this, sanPhamList);
         bestFoodView.setAdapter(bestFoodAdapter);
-        productsInterface = ProductsUtils.getProdutsService();
+        productsInterface = SanPhamUtils.getProdutsService();
         productsInterface.getAllSanPham().enqueue(new Callback<ArrayList<SanPham>>() {
             @Override
             public void onResponse(Call<ArrayList<SanPham>> call, Response<ArrayList<SanPham>> response) {
@@ -83,7 +77,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
         //load danh muc
-        categoryInterface = CategoryUtils.getCategoryService();
+        categoryInterface = DanhMucUtils.getCategoryService();
         GridLayoutManager layoutManager = new GridLayoutManager(this, 4);
         suggestionsView.setLayoutManager(layoutManager);
         categoryAdapter = new CategoryAdapter(HomeActivity.this, danhMuclist);

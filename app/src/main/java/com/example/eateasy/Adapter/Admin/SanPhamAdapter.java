@@ -48,8 +48,7 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
                 .placeholder(R.drawable.avatar) // Hình ảnh mặc định trong trường hợp không tải được
                 .error(R.drawable.avatar) // Hình ảnh hiển thị khi có lỗi
                 .into(holder.imageView);
-
-        holder.itemView.setOnClickListener(v -> {
+        holder.tvDetail.setOnClickListener(v ->{
             // Tạo một instance của ProductDetailFragment
             ProductDetailFragment detailFragment = new ProductDetailFragment();
 
@@ -73,6 +72,10 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
                     .addToBackStack(null)
                     .commit();
         });
+        holder.itemView.setOnClickListener(v -> {
+
+        });
+
 
 
     }
@@ -83,7 +86,7 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
     }
 
     public static class SanPhamViewHolder extends RecyclerView.ViewHolder {
-        TextView tenSPTextView, giaBanTextView, moTaTextView;
+        TextView tenSPTextView, giaBanTextView, moTaTextView, tvDetail;
         ImageView imageView;
 
         public SanPhamViewHolder(@NonNull View itemView) {
@@ -92,6 +95,7 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
             giaBanTextView = itemView.findViewById(R.id.giaBanTextView);
             moTaTextView = itemView.findViewById(R.id.moTaTextView);
             imageView = itemView.findViewById(R.id.anhSanPhamImageView);
+            tvDetail = itemView.findViewById(R.id.tv_detail);
         }
     }
 }

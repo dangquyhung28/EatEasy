@@ -14,15 +14,11 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.example.eateasy.Model.SanPham;
 import com.example.eateasy.Model.User;
 import com.example.eateasy.R;
-import com.example.eateasy.Retrofit.UserInterface;
-import com.example.eateasy.Retrofit.UserUtils;
+import com.example.eateasy.Retrofit.Interface.UserInterface;
+import com.example.eateasy.Retrofit.Utils.UserUtils;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;

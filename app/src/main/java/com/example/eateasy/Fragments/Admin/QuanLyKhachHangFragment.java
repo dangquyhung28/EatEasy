@@ -3,78 +3,64 @@ package com.example.eateasy.Fragments.Admin;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.eateasy.Adapter.Admin.KhachHangAdapter;
+import com.example.eateasy.Model.KhachHang;
 import com.example.eateasy.R;
+import com.example.eateasy.Retrofit.Interface.KhachHangInterface;
+import com.example.eateasy.Retrofit.Utils.KhachHangUtils;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link QuanLyKhachHangFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+
 public class QuanLyKhachHangFragment extends Fragment {
+    private RecyclerView recyclerView;
+    private KhachHangAdapter adapter;
+    private ArrayList<KhachHang> khachHangList;
+    private EditText searchBar;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public QuanLyKhachHangFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment QuanLyKhachHangFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static QuanLyKhachHangFragment newInstance(String param1, String param2) {
-        QuanLyKhachHangFragment fragment = new QuanLyKhachHangFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (getActivity() != null) {
-            TextView toolbarTitle = getActivity().findViewById(R.id.toolbar_title);
-            ImageView iconNotification = getActivity().findViewById(R.id.icon_notification);
-
-            toolbarTitle.setText("Quản lý khách hàng"); // Change title for ProductFragment
-            iconNotification.setImageResource(R.drawable.ic_user_management); // Set a different icon if needed
-        }
-    }
+    KhachHangInterface khachHangInterface;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_quan_ly_khach_hang, container, false);
+        View view= inflater.inflate(R.layout.fragment_quan_ly_khach_hang, container, false);
+        //
+        recyclerView = view.findViewById(R.id.rvKhachHang);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        searchBar = view.findViewById(R.id.etSearch);
+        khachHangInterface = KhachHangUtils.getKhachHangService();
+        khachHangList = new ArrayList<>();
+        adapter = new KhachHangAdapter(getContext(),khachHangList);
+        recyclerView.setAdapter(adapter);
+        khachHangInterface.getAllKhachHang().enqueue(new Callback<ArrayList<KhachHang>>() {
+            @Override
+            public void onResponse(Call<ArrayList<KhachHang>> call, Response<ArrayList<KhachHang>> response) {
+                khachHangList.clear();
+                khachHangList.addAll(response.body());
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<KhachHang>> call, Throwable t) {
+
+            }
+        });
+
+
+        return view;
     }
 }

@@ -26,15 +26,17 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.eateasy.Model.DanhMuc;
 import com.example.eateasy.Model.SanPham;
+import com.example.eateasy.Network.FirebaseStorageHelper;
 import com.example.eateasy.R;
-import com.example.eateasy.Retrofit.CategoryInterface;
-import com.example.eateasy.Retrofit.CategoryUtils;
-import com.example.eateasy.Retrofit.ProductsInterface;
-import com.example.eateasy.Retrofit.ProductsUtils;
+import com.example.eateasy.Retrofit.Interface.DanhMucInterface;
+import com.example.eateasy.Retrofit.Utils.DanhMucUtils;
+import com.example.eateasy.Retrofit.Interface.SanPhamInterface;
+import com.example.eateasy.Retrofit.Utils.SanPhamUtils;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -54,9 +56,10 @@ public class ProductDetailFragment extends Fragment {
     private TextView tenSPTextView, giaBanTextView, giaNhapTextView, moTaTextView, soLuongTextView, maDanhMucTextView;
     private HashMap<String, String> danhMucMap = new HashMap<>();
     private ArrayList<String> danhMucNames = new ArrayList<>();
-    private CategoryInterface categoryInterface;
+    private DanhMucInterface categoryInterface;
     private String maSP;
     private Uri productImageUri;
+    private String imgEdit;
 
     @Nullable
     @Override
@@ -64,7 +67,7 @@ public class ProductDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_product_detail, container, false);
 
         // Ánh xạ các thành phần giao diện
-        categoryInterface = CategoryUtils.getCategoryService();
+        categoryInterface = DanhMucUtils.getCategoryService();
         productImage = view.findViewById(R.id.product_image);
         closeButton = view.findViewById(R.id.btnBack);
         iconEdit = view.findViewById(R.id.iconEdit);
@@ -75,6 +78,11 @@ public class ProductDetailFragment extends Fragment {
         moTaTextView = view.findViewById(R.id.moTaTextView);
         soLuongTextView = view.findViewById(R.id.soLuongTextView);
         maDanhMucTextView = view.findViewById(R.id.maDanhMucTextView);
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        String bucketName = storage.getReference().getBucket();
+        Log.d("FirebaseStorage", "Connected to bucket: " + bucketName);
+
 
         // Nhận dữ liệu từ Bundle
         if (getArguments() != null) {
@@ -119,8 +127,24 @@ public class ProductDetailFragment extends Fragment {
 
         // Xử lý nút Delete
         iconDelete.setOnClickListener(v -> {
-            deleteProduct();
+            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+            builder.setTitle("Xóa sản phẩm?");
+            builder.setMessage("Bạn có chắc chắn muốn xóa sản phẩm này không?");
+
+            // Nút "Chắc chắn"
+            builder.setPositiveButton("Xóa", (dialog, which) -> {
+                deleteProduct(); // Gọi hàm xóa sản phẩm
+                Toast.makeText(v.getContext(), "Sản phẩm đã được xóa", Toast.LENGTH_SHORT).show();
+            });
+
+            // Nút "Thoát"
+            builder.setNegativeButton("Thoát", (dialog, which) -> dialog.dismiss());
+
+            // Hiển thị dialog
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
+
 
         return view;
     }
@@ -169,39 +193,103 @@ public class ProductDetailFragment extends Fragment {
         // Xử lý các nút trong dialog
         btnEditImage.setOnClickListener(v -> openImagePicker());
         btnSave.setOnClickListener(v -> {
-            // Cập nhật dữ liệu...
+            // Lấy dữ liệu từ các trường
+            if(validateInputs(editTenSP, editMoTa,editGiaBan,editGiaNhap,editSoLuong)){
+                String tenSP = editTenSP.getText().toString().trim();
+                String moTa = editMoTa.getText().toString().trim();
+                float giaBan = Float.parseFloat(editGiaBan.getText().toString().trim());
+                float  giaNhap = Float.parseFloat(editGiaNhap.getText().toString().trim());
+                int soLuong = Integer.parseInt(editSoLuong.getText().toString().trim());
+                String tenDanhMuc = spinnerMaDanhMuc.getSelectedItem().toString();
+                String maDanhMuc = danhMucMap.get(tenDanhMuc);
+                //String anhSanPham = imgEdit;// Lấy URI ảnh
+                if (imgEdit == null || imgEdit.isEmpty()) {
+                    Toast.makeText(getContext(), "Đang tải ảnh lên, vui lòng chờ...", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Uri imageUriProduct = Uri.parse(imgEdit);
+                imgProduct.setImageURI(imageUriProduct);
+                // Tạo đối tượng sản phẩm mới
+                SanPham sanPham = new SanPham(maSP, tenSP, moTa, giaBan, giaNhap, soLuong, maDanhMuc, imgEdit);
+                Gson gson = new Gson();
+                String json = gson.toJson(sanPham);
+                Log.d("SanPhamJSON", json);
+
+                // Lưu sản phẩm vào cơ sở dữ liệu
+                updateProduct(sanPham);
+            }
+
+
+            // Đóng dialog
             alertDialog.dismiss();
+            Toast.makeText(getContext(), "Sản phẩm đã được lưu!", Toast.LENGTH_SHORT).show();
         });
         btnClose.setOnClickListener(v -> alertDialog.dismiss());
     }
 
+
     private void deleteProduct() {
-        // Thêm logic xóa sản phẩm tại đây
-        Toast.makeText(requireContext(), "Đã xóa sản phẩm", Toast.LENGTH_SHORT).show();
-        requireActivity().getSupportFragmentManager().popBackStack();
+        // Lấy instance của service Retrofit
+        SanPhamInterface productsService = SanPhamUtils.getProdutsService();
+
+        // Gọi API xóa sản phẩm
+        productsService.deleteProduct(maSP).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getContext(), "Xóa sản phẩm thành công!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Không thể xóa sản phẩm!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), "Lỗi khi gọi API: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
+
+    //up anh
     private void openImagePicker() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, 100);
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 100 && resultCode == Activity.RESULT_OK && data != null) {
-            Uri selectedImageUri = data.getData();
+            Uri selectedImageUri = data.getData(); // URI của ảnh
             if (selectedImageUri != null) {
-                productImageUri = selectedImageUri;
-                Glide.with(requireContext())
-                        .load(productImageUri)
-                        .placeholder(R.drawable.ic_product_management)
-                        .error(R.drawable.icon_infomation)
-                        .into(imgProduct);
+                uploadImageToFirebase(selectedImageUri);
             }
         }
     }
+    private void uploadImageToFirebase(Uri imageUri) {
+        FirebaseStorageHelper storageHelper = new FirebaseStorageHelper();
+
+        storageHelper.uploadImage(imageUri, new FirebaseStorageHelper.OnImageUploadCallback() {
+            @Override
+            public void onSuccess(String imageUrl) {
+                Toast.makeText(getContext(), "Upload thành công! URL: " + imageUrl, Toast.LENGTH_SHORT).show();
+                Log.d("Firebase URL", imageUrl);
+                imgEdit = imageUrl;
+
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Toast.makeText(getContext(), "Lỗi: " + errorMessage, Toast.LENGTH_SHORT).show();
+                Log.d("Lỗi: ",errorMessage);
+            }
+        });
+    }
+
+
+
+
 
 
 
@@ -302,7 +390,7 @@ public class ProductDetailFragment extends Fragment {
     }
     //update
     private void updateProduct(SanPham updatedProduct) {
-        ProductsInterface productsService = ProductsUtils.getProdutsService();
+        SanPhamInterface productsService = SanPhamUtils.getProdutsService();
 
         // Chỉ gửi các thông tin mới, không cần cập nhật MaSP
         // MaSP đã có sẵn trong đối tượng `updatedProduct`

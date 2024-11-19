@@ -1,6 +1,5 @@
-package com.example.eateasy.Retrofit;
+package com.example.eateasy.Retrofit.Interface;
 
-import com.example.eateasy.Model.DanhMuc;
 import com.example.eateasy.Model.User;
 
 import java.util.ArrayList;
