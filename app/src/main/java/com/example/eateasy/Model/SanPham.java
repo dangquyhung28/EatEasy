@@ -65,7 +65,6 @@ public class SanPham {
 
     @Override
     public String toString() {
-        // Trả về tên sản phẩm để hiển thị trong Spinner
         return tenSP;
     }
 }

@@ -6,8 +6,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,11 +20,13 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.eateasy.Adapter.Admin.SanPhamAdapter;
+import com.example.eateasy.Model.NhaCungCap;
 import com.example.eateasy.Model.SanPham;
 import com.example.eateasy.R;
-import com.example.eateasy.Retrofit.ProductsInterface;
-import com.example.eateasy.Retrofit.ProductsUtils;
+import com.example.eateasy.Retrofit.Interface.NccInterface;
+import com.example.eateasy.Retrofit.Utils.NccUtils;
+import com.example.eateasy.Retrofit.Interface.SanPhamInterface;
+import com.example.eateasy.Retrofit.Utils.SanPhamUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,7 +42,8 @@ public class DonNhapFragment extends Fragment {
     private TableLayout tableSanPham;
     private TextView tvTongTien;
     private float tongTien = 0;
-    ProductsInterface productsInterface;
+    SanPhamInterface productsInterface;
+    NccInterface nccInterfacel;
 
     @Nullable
     @Override
@@ -56,7 +57,27 @@ public class DonNhapFragment extends Fragment {
         Button btnGuiHoaDon = view.findViewById(R.id.btnGuiHoaDon);
         tableSanPham = view.findViewById(R.id.tableSanPham);
         tvTongTien = view.findViewById(R.id.tvTongTien);
-        productsInterface = ProductsUtils.getProdutsService();
+        productsInterface = SanPhamUtils.getProdutsService();
+        nccInterfacel = NccUtils.getNccService();
+
+        ArrayList<NhaCungCap> nhaCungCaps = new ArrayList<>();
+        ArrayAdapter<NhaCungCap> spinnerAdapterNcc = new ArrayAdapter<>(requireContext(),
+                android.R.layout.simple_spinner_item, nhaCungCaps);
+        spinnerAdapterNcc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spMaNCC.setAdapter(spinnerAdapterNcc);
+        nccInterfacel.getALLNcc().enqueue(new Callback<ArrayList<NhaCungCap>>() {
+            @Override
+            public void onResponse(Call<ArrayList<NhaCungCap>> call, Response<ArrayList<NhaCungCap>> response) {
+                nhaCungCaps.clear();
+                nhaCungCaps.addAll(response.body());
+                spinnerAdapterNcc.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<NhaCungCap>> call, Throwable t) {
+                Toast.makeText(getContext(), "Không tải được danh sách NCC", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         // Thiết lập chọn ngày

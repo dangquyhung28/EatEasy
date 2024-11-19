@@ -69,7 +69,7 @@ public class QuanLyDonBanFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_quan_ly_don_ban, container, false);
 
         //anh xa
-        btnAddHDBan = view.findViewById(R.id.fab_add_HDB);
+        btnAddHDBan = view.findViewById(R.id.fab_add_Pro);
         btnAddHDBan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
