@@ -13,26 +13,26 @@
         android:orientation="vertical"
         android:padding="8dp">
 
-        <!-- Ảnh sản phẩm -->
         <ImageView
             android:id="@+id/imgFood"
             android:layout_width="120dp"
             android:layout_height="120dp"
+            android:layout_gravity="center"
             android:scaleType="centerCrop"
             android:src="@drawable/product_admin_24" />
 
-        <!-- Tên sản phẩm -->
         <TextView
             android:id="@+id/tvFoodName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Food Name"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:maxLines="2"
+            android:ellipsize="end" />
 
-        <!-- Giá bán -->
         <TextView
             android:id="@+id/tvFoodPrice"
             android:layout_width="wrap_content"
@@ -40,30 +40,60 @@
             android:layout_marginTop="4dp"
             android:text="$10.00"
             android:textSize="12sp"
-            android:textColor="@color/blue_grey" />
+            android:textColor="@color/red" />
 
-        <!-- Đánh giá -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="4dp">
-
-            <!-- Icon ngôi sao -->
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/icon_delete_16"
-                app:tint="@color/tab_indicator_color" />
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/arrow"
-                app:tint="@color/colorPrimaryDark" />
-
+            <LinearLayout
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/star_16" />
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/star_16" />
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/star_16" />
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/star_16" />
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/star_16"
+                    app:tint="@color/blue_grey" />
+            </LinearLayout>
+            <Button
+                android:id="@+id/btnBuyNow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mua ngay"
+                android:textSize="8sp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_margin="8dp"
+                android:gravity="center"
+                android:background="@drawable/rounded_dialog_background"
+                android:textColor="@android:color/white"
+                android:padding="2dp"
+                android:minWidth="50dp"
+                android:minHeight="15dp"/>
 
         </LinearLayout>
 
     </LinearLayout>
+
+    <!-- Nút "Mua ngay" ở góc phải dưới -->
+
+
 </androidx.cardview.widget.CardView>

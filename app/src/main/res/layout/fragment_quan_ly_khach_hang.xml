@@ -1,27 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="8dp">
 
     <!-- Thanh tìm kiếm -->
-    <EditText
-        android:id="@+id/etSearch"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/search_bar_kh"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Tìm kiếm khách hàng"
-        android:padding="8dp"
-        android:drawableStart="@android:drawable/ic_menu_search"
-        android:background="@android:drawable/editbox_background"
-        android:layout_marginBottom="8dp" />
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <AutoCompleteTextView
+            android:id="@+id/search_khachhang_admin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tìm kiếm sản phẩm"
+            android:inputType="text"
+            android:padding="8dp"
+            android:background="@drawable/grey_backgound"
+            android:drawableStart="@drawable/icon_search"
+            android:completionThreshold="1" />
+    </LinearLayout>
 
     <!-- Danh sách khách hàng -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvKhachHang"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:scrollbars="vertical"
-        android:clipToPadding="false" />
-</LinearLayout>
+        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/search_bar_kh"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

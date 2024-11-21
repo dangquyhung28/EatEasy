@@ -36,6 +36,7 @@ import com.bumptech.glide.Glide;
 import com.example.eateasy.Adapter.Admin.SanPhamAdapter;
 import com.example.eateasy.Model.DanhMuc;
 import com.example.eateasy.Model.SanPham;
+import com.example.eateasy.Network.FirebaseStorageHelper;
 import com.example.eateasy.R;
 import com.example.eateasy.Retrofit.Interface.DanhMucInterface;
 import com.example.eateasy.Retrofit.Utils.DanhMucUtils;
@@ -56,6 +57,7 @@ public class ProductFragment extends Fragment {
     SanPhamInterface productsInterface;
     RecyclerView recyclerView;
     TextView sl;
+    ImageView imgProductnew;
     SanPhamAdapter adapter;
     private HashMap<String, String> danhMucMap;
     ArrayList<SanPham> sanPhamList = new ArrayList<>();
@@ -64,8 +66,10 @@ public class ProductFragment extends Fragment {
     private static final int REQUEST_CODE_STORAGE_PERMISSION = 1;
     private static final int REQUEST_CODE_SELECT_IMAGE = 2;
     private ArrayList<SanPham> originalSanPhamList = new ArrayList<>();
-    private EditText etAnhSanPham;
+    private String imgEdit;
     private AutoCompleteTextView searchProduct;
+    int quantity = 0;
+    TextView tvQuantity;
 
 
     @SuppressLint("MissingInflatedId")
@@ -165,18 +169,35 @@ public class ProductFragment extends Fragment {
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.product_dialog, null);
         builder.setView(dialogView);
-
+        imgProductnew = dialogView.findViewById(R.id.ivAnhSanPham);
         EditText etTenSP = dialogView.findViewById(R.id.etTenSP);
         EditText etMoTa = dialogView.findViewById(R.id.etMoTa);
         EditText etGiaBan = dialogView.findViewById(R.id.etGiaBan);
         EditText etGiaNhap = dialogView.findViewById(R.id.etGiaNhap);
         Spinner spinnerMaDanhMuc = dialogView.findViewById(R.id.spinnerMaDanhMuc);
-        EditText etSoLuong = dialogView.findViewById(R.id.etSoLuong);
-        EditText etAnhSanPham = dialogView.findViewById(R.id.etAnhSanPham);
+        Button btnIncrease, btnDecrease;
         Button btnChonAnh = dialogView.findViewById(R.id.btnChonAnh);
+        tvQuantity = dialogView.findViewById(R.id.tvQuantity);
+        btnIncrease = dialogView.findViewById(R.id.btnIncrease);
+        btnDecrease = dialogView.findViewById(R.id.btnDecrease);
+
+        //nut so luong
+        // Sự kiện khi nhấn nút tăng
+        btnIncrease.setOnClickListener(v -> {
+            quantity++;
+            updateQuantityDisplay();
+        });
+
+        // Sự kiện khi nhấn nút giảm
+        btnDecrease.setOnClickListener(v -> {
+            if (quantity > 0) {
+                quantity--;
+                updateQuantityDisplay();
+            }
+        });
 
         // Xử lý nút chọn ảnh
-        btnChonAnh.setOnClickListener(v -> requestPermissionAndSelectImage());
+        btnChonAnh.setOnClickListener(v -> openImagePicker());
 
         builder.setPositiveButton("Thêm", (dialog, which) -> {
             // Tạm thời bỏ trống, xử lý trong onClick button
@@ -187,14 +208,17 @@ public class ProductFragment extends Fragment {
         dialog.setOnShowListener(dialogInterface -> {
             Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
             button.setOnClickListener(view -> {
-                if (validateInputs(etTenSP, etMoTa, etGiaBan, etGiaNhap, etSoLuong)) {
+                if (validateInputs(etTenSP, etMoTa, etGiaBan, etGiaNhap)) {
                     String tenSP = etTenSP.getText().toString().trim();
                     String moTa = etMoTa.getText().toString().trim();
                     float giaBan = Float.parseFloat(etGiaBan.getText().toString().trim());
                     float giaNhap = Float.parseFloat(etGiaNhap.getText().toString().trim());
-                    int soLuong = Integer.parseInt(etSoLuong.getText().toString().trim());
-                    String anhSanPham = etAnhSanPham.getText().toString().trim();
 
+
+                    if (imgEdit == null || imgEdit.isEmpty()) {
+                        Toast.makeText(getContext(), "Đang tải ảnh lên, vui lòng chờ...", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     String tenDanhMuc = spinnerMaDanhMuc.getSelectedItem().toString();
                     String maDanhMuc = danhMucMap.get(tenDanhMuc);
 
@@ -203,7 +227,7 @@ public class ProductFragment extends Fragment {
                         return;
                     }
 
-                    SanPham sanPham = new SanPham("", tenSP, moTa, giaBan, giaNhap, soLuong, maDanhMuc, anhSanPham);
+                    SanPham sanPham = new SanPham("", tenSP, moTa, giaBan, giaNhap, quantity, maDanhMuc, imgEdit);
                     sanPhamList.add(sanPham);
                     adapter.notifyDataSetChanged();
 
@@ -226,35 +250,55 @@ public class ProductFragment extends Fragment {
         dialog.setCancelable(false); // Ngăn không cho đóng bằng cách nhấn ngoài vùng dialog
         fetchDanhMucForSpinner(spinnerMaDanhMuc);
     }
-
-    private void requestPermissionAndSelectImage() {
-        // Kiểm tra quyền truy cập bộ nhớ
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
-        } else {
-            // Khởi tạo Intent để chọn ảnh
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(intent, REQUEST_CODE_SELECT_IMAGE);
-        }
+    private void updateQuantityDisplay() {
+        tvQuantity.setText(String.valueOf(quantity));
     }
 
+    //up anh
+    private void openImagePicker() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, 100);
+    }
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @javax.annotation.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_CODE_SELECT_IMAGE && resultCode == Activity.RESULT_OK && data != null) {
-            Uri imageUri = data.getData();
-
-            // Thay getView() bằng requireView() để đảm bảo view đã được khởi tạo
-            EditText etAnhSanPham = requireView().findViewById(R.id.etAnhSanPham);
-            etAnhSanPham.setText(imageUri.toString());
-
-            ImageView ivAnhSanPham = requireView().findViewById(R.id.ivAnhSanPham);
-            Glide.with(getContext())  // Sử dụng Glide để tải ảnh
-                    .load(imageUri)
-                    .into(ivAnhSanPham);
+        if (requestCode == 100 && resultCode == Activity.RESULT_OK && data != null) {
+            Uri selectedImageUri = data.getData(); // URI của ảnh
+            if (selectedImageUri != null) {
+                uploadImageToFirebase(selectedImageUri);
+            }
         }
     }
+    private void uploadImageToFirebase(Uri imageUri) {
+        FirebaseStorageHelper storageHelper = new FirebaseStorageHelper();
+
+        storageHelper.uploadImage(imageUri, new FirebaseStorageHelper.OnImageUploadCallback() {
+            @Override
+            public void onSuccess(String imageUrl) {
+                Toast.makeText(getContext(), "Upload thành công!", Toast.LENGTH_SHORT).show();
+                if (imageUrl != null && !imageUrl.isEmpty()) {
+                    Log.d("Firebase URL", imageUrl);  // Kiểm tra URL
+                    imgEdit = imageUrl;
+                    Glide.with(requireContext())
+                            .load(imgEdit)
+                            .placeholder(R.drawable.ic_product_management)  // Hình ảnh placeholder
+                            .error(R.drawable.icon_infomation)  // Hình ảnh nếu có lỗi
+                            .into(imgProductnew);
+                } else {
+                    Log.e("Error", "URL from Firebase is null or empty");
+                    // Xử lý khi URL không hợp lệ
+                }
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Toast.makeText(getContext(), "Lỗi: " + errorMessage, Toast.LENGTH_SHORT).show();
+                Log.d("Lỗi: ",errorMessage);
+            }
+        });
+    }
+
 
 
 
@@ -302,7 +346,7 @@ public class ProductFragment extends Fragment {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(getContext(), "Sản phẩm đã được thêm vào database!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Thêm sản phẩm thành công!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "Thêm sản phẩm thất bại!", Toast.LENGTH_SHORT).show();
                 }
@@ -316,7 +360,7 @@ public class ProductFragment extends Fragment {
     }
 
     //check valid
-    private boolean validateInputs(EditText etTenSP, EditText etMoTa, EditText etGiaBan, EditText etGiaNhap, EditText etSoLuong) {
+    private boolean validateInputs(EditText etTenSP, EditText etMoTa, EditText etGiaBan, EditText etGiaNhap) {
         boolean isValid = true;
 
         // Kiểm tra trường tên sản phẩm
@@ -368,22 +412,6 @@ public class ProductFragment extends Fragment {
         }
 
         // Kiểm tra trường số lượng
-        String soLuongText = etSoLuong.getText().toString().trim();
-        if (soLuongText.isEmpty()) {
-            etSoLuong.setError("Bạn phải nhập số lượng");
-            isValid = false;
-        } else {
-            try {
-                int soLuong = Integer.parseInt(soLuongText);
-                if (soLuong <= 0) {
-                    etSoLuong.setError("Số lượng phải lớn hơn 0 và là số nguyên");
-                    isValid = false;
-                }
-            } catch (NumberFormatException e) {
-                etSoLuong.setError("Số lượng phải là số nguyên hợp lệ");
-                isValid = false;
-            }
-        }
 
         return isValid;
     }

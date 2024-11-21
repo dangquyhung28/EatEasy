@@ -1,0 +1,115 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="16dp"
+    android:padding="8dp">
+
+    <!-- Thanh công cụ (Toolbar) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- Nút Back -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icon_arrow"
+            android:contentDescription="Back"
+            android:background="?attr/selectableItemBackground"
+            android:padding="8dp" />
+
+        <!-- Tiêu đề -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Danh sách sản phẩm"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Thanh tìm kiếm -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="@drawable/grey_backgound"
+    android:elevation="2dp">
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/icon_search"
+        android:layout_gravity="center_vertical"
+        />
+
+    <EditText
+        android:id="@+id/edtSearch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="Tìm kiếm sản phẩm..."
+        android:background="@null"
+        android:paddingStart="8dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/colorPrimaryDark"
+        android:inputType="text" />
+</LinearLayout>
+
+    <!-- Bộ lọc -->
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sắp xếp:"
+        android:paddingEnd="8dp"
+        android:textColor="@color/black" />
+
+    <Spinner
+        android:id="@+id/spinnerSort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
+        android:entries="@array/sort_options"
+        android:layout_gravity="center_vertical" />
+
+    </LinearLayout>
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutDanhMuc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+        </LinearLayout>
+    </HorizontalScrollView>
+
+
+        <!-- Danh sách sản phẩm -->
+    <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/recyclerViewSanPham"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:paddingTop="8dp" />
+    </LinearLayout>

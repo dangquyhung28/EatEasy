@@ -7,17 +7,13 @@
         android:required="false" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-
-
     <application
-
-        android:usesCleartextTraffic="true"
-        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:allowBackup="true"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -25,8 +21,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EatEasy"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <receiver android:name=".Network.NetworkChangeReceiver"
+        <activity
+            android:name=".Activity.User.SanPhamActivity"
+            android:exported="false" />
+
+        <receiver
+            android:name=".Network.NetworkChangeReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -48,6 +50,18 @@
             android:exported="false" />
         <activity
             android:name=".Activity.Admin.DashboardActivity"
+            android:exported="false"></activity>
+        <activity
+            android:name=".Activity.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.IntroActivity"
+            android:exported="false"></activity>
+        <activity
+            android:name=".Activity.User.CartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.User.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,27 +70,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.RegisterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.IntroActivity"
-            android:exported="false" >
-
-
-        </activity>
-        <activity
-            android:name=".Activity.User.CartActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.User.HomeActivity"
-            android:exported="false" >
-        </activity>
-        <activity
             android:name=".Activity.Login_Activity"
-            android:exported="false" >
-
-
-        </activity>
+            android:exported="false"></activity>
     </application>
 
 </manifest>

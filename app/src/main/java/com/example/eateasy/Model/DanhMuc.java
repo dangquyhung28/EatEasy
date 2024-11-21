@@ -1,6 +1,8 @@
 package com.example.eateasy.Model;
 
-public class DanhMuc {
+import java.io.Serializable;
+
+public class DanhMuc implements Serializable {
     private String MaDanhMuc;
     private String TenDanhMuc;
 

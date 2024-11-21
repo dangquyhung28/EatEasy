@@ -1,6 +1,8 @@
 package com.example.eateasy.Adapter.User;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +13,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.eateasy.Activity.User.HomeActivity;
+import com.example.eateasy.Activity.User.SanPhamActivity;
 import com.example.eateasy.Model.DanhMuc;
 import com.example.eateasy.Model.SanPham;
 import com.example.eateasy.R;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryAdapter  extends  RecyclerView.Adapter<CategoryAdapter.CategotyViewHolder>{
@@ -41,6 +47,16 @@ public class CategoryAdapter  extends  RecyclerView.Adapter<CategoryAdapter.Cate
         holder.imageView.setImageResource(iconResId);
 
 
+        holder.itemView.setOnClickListener(v -> {
+            String maDanhMuc = danhMuc.getMaDanhMuc();
+
+            Intent intent = new Intent(v.getContext(), SanPhamActivity.class);
+            intent.putExtra("maDanhMuc",maDanhMuc);
+            List<DanhMuc> danhMucArrayList = getDanhMucList();
+            intent.putExtra("danhMucList", (Serializable) danhMucList);
+            v.getContext().startActivity(intent);
+        });
+
 
     }
 
@@ -60,11 +76,14 @@ public class CategoryAdapter  extends  RecyclerView.Adapter<CategoryAdapter.Cate
             imageView = itemView.findViewById(R.id.iconDanhMuc);
         }
     }
+    public List<DanhMuc> getDanhMucList() {
+        return danhMucList;
+    }
     private int getIconForDanhMuc(String maDanhMuc) {
         // Gán icon dựa trên MaDanhMuc
         switch (maDanhMuc) {
             case "DM01":
-                return R.drawable.icon_product_admin;
+                return R.drawable.snack_icon;
             case "DM02":
                 return R.drawable.icon_home_admin;
             case "DM03":

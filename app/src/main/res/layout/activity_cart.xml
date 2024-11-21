@@ -32,11 +32,11 @@
                 android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cart"
+                android:text="Giỏ hàng"
                 android:textStyle="bold"
                 android:textAlignment="center"
                 android:textSize="34sp"
-                android:textColor="@color/blue_grey"/>
+                android:textColor="@color/colorPrimaryDark"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvcCart"
@@ -60,18 +60,18 @@
                     android:background="@drawable/grey_backgound"
                     android:ems="10"
                     android:inputType="text"
-                    android:hint="Enter Your Code"
+                    android:hint="Nhập mã voucher"
                     android:textAlignment="center"
-                    android:textColor="@color/blue_grey"
-                    android:textColorHint="@color/blue_grey"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textColorHint="@color/colorPrimaryDark"
                     android:textSize="14sp" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/applyBtn"
-                    android:layout_width="145dp"
+                    android:layout_width="60dp"
                     android:layout_height="40dp"
                     android:background="@drawable/red_button_background"
-                    android:text="Apply Coupon"
+                    android:text="Áp mã"
                     style="@android:style/Widget.Button"
                     android:textColor="@color/white" />
             </LinearLayout>
@@ -87,6 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+
                 android:background="@drawable/grey_backgound">
 
                 <TextView
@@ -96,6 +97,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="Subtotal"
+                    android:textColor="@color/colorPrimaryDark"
                     style="@style/textStyle"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -106,12 +108,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="Delivery"
+                    android:textColor="@color/colorPrimaryDark"
                     style="@style/textStyle"
                     app:layout_constraintStart_toStartOf="@+id/textView8"
                     app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
                 <TextView
                     android:id="@+id/textView9"
+                    android:textColor="@color/colorPrimaryDark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -122,6 +126,7 @@
 
                 <TextView
                     android:id="@+id/Subtotal"
+                    android:textColor="@color/colorPrimaryDark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
@@ -132,6 +137,7 @@
 
                 <TextView
                     android:id="@+id/Delivery"
+                    android:textColor="@color/colorPrimaryDark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -142,6 +148,7 @@
 
                 <TextView
                     android:id="@+id/Total_Tax"
+                    android:textColor="@color/colorPrimaryDark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -152,6 +159,7 @@
 
                 <View
                     android:id="@+id/view"
+                    android:textColor="@color/colorPrimaryDark"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_marginStart="16dp"
@@ -164,16 +172,18 @@
 
                 <TextView
                     android:id="@+id/textView14"
+                    android:textColor="@color/colorPrimaryDark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Total"
+                    android:text="Tổng thanh toán"
                     style="@style/textStyleBold"
                     app:layout_constraintStart_toStartOf="@+id/textView9"
                     app:layout_constraintTop_toBottomOf="@+id/view" />
 
                 <TextView
                     android:id="@+id/Total"
+                    android:textColor="@color/colorPrimaryDark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
@@ -194,6 +204,7 @@
                 style="@android:style/Widget.Button"
                 android:layout_marginTop="16dp"
                 android:text="Place Order"
+                android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="18sp"/>
         </LinearLayout>

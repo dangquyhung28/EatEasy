@@ -1,17 +1,23 @@
 package com.example.eateasy.Adapter.User;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.eateasy.Activity.User.CartActivity;
+import com.example.eateasy.Activity.User.DetailActivity;
 import com.example.eateasy.Model.SanPham;
 import com.example.eateasy.R;
 
@@ -47,7 +53,37 @@ public class BestFoodAdapter extends RecyclerView.Adapter<BestFoodAdapter.BestFo
                 .into(holder.imageView);
 
         holder.itemView.setOnClickListener(v -> {
-            
+            Bundle bundle = new Bundle();
+            bundle.putString("maSP", sanPham.getMaSP());
+            bundle.putString("TenSP", sanPham.getTenSP());
+            bundle.putString("MoTa", sanPham.getMoTa());
+            bundle.putFloat("GiaBan", sanPham.getGiaBan());
+            bundle.putFloat("GiaNhap", sanPham.getGiaNhap());
+            bundle.putInt("SoLuong", sanPham.getSoLuong());
+            bundle.putString("MaDanhMuc", sanPham.getMaDanhMuc());
+            bundle.putString("AnhSanPham", sanPham.getAnhSanPham());
+
+            // Tạo Intent để mở Activity chi tiết sản phẩm
+            Intent intent = new Intent(context, DetailActivity.class);
+            intent.putExtras(bundle); // Truyền dữ liệu qua Intent
+            context.startActivity(intent);
+
+        });
+        holder.btnBuyNow.setOnClickListener(v->{
+            Bundle bundle = new Bundle();
+            bundle.putString("maSP", sanPham.getMaSP());
+            bundle.putString("TenSP", sanPham.getTenSP());
+            bundle.putString("MoTa", sanPham.getMoTa());
+            bundle.putFloat("GiaBan", sanPham.getGiaBan());
+            bundle.putFloat("GiaNhap", sanPham.getGiaNhap());
+            bundle.putInt("SoLuong", sanPham.getSoLuong());
+            bundle.putString("MaDanhMuc", sanPham.getMaDanhMuc());
+            bundle.putString("AnhSanPham", sanPham.getAnhSanPham());
+
+            // Tạo Intent để mở Activity chi tiết sản phẩm
+            Intent intent = new Intent(context, CartActivity.class);
+            intent.putExtras(bundle); // Truyền dữ liệu qua Intent
+            context.startActivity(intent);
         });
 
 
@@ -61,6 +97,7 @@ public class BestFoodAdapter extends RecyclerView.Adapter<BestFoodAdapter.BestFo
     public static class BestFoodViewHolder extends RecyclerView.ViewHolder {
         TextView tenSPTextView, giaBanTextView, moTaTextView;
         ImageView imageView;
+        Button btnBuyNow;
 
         public BestFoodViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -68,6 +105,7 @@ public class BestFoodAdapter extends RecyclerView.Adapter<BestFoodAdapter.BestFo
             giaBanTextView = itemView.findViewById(R.id.tvFoodPrice);
             // moTaTextView = itemView.findViewById(R.id.moTaTextView);
             imageView = itemView.findViewById(R.id.imgFood);
+            btnBuyNow = itemView.findViewById(R.id.btnBuyNow);
         }
     }
 }
