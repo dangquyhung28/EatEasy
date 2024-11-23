@@ -45,6 +45,7 @@ public class Login_Activity extends AppCompatActivity {
     UserInterface userInterface;
     CheckBox cbShowPassword;
     ArrayList<User> userArrayList = new ArrayList<>();
+    int user_id;
 
 
     private BroadcastReceiver networkStatusReceiver = new BroadcastReceiver() {
@@ -118,8 +119,11 @@ public class Login_Activity extends AppCompatActivity {
                 String username = edtUsername.getText().toString().trim();
                 String password = edtPass.getText().toString().trim();
                 if(checkLogin(username, password)==1 || checkLogin(username, password)==0){
+
                     Toast.makeText(Login_Activity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(Login_Activity.this, HomeActivity.class));
+                    Intent intent = new Intent(Login_Activity.this, HomeActivity.class);
+                    intent.putExtra("userId", user_id);
+                    startActivity(intent);
                 }else {
                     Toast.makeText(Login_Activity.this, "Sai tên đăng nhập hoặc mật khẩu", Toast.LENGTH_SHORT).show();
                 }
@@ -210,8 +214,11 @@ public class Login_Activity extends AppCompatActivity {
             String username = etAdminUsername.getText().toString();
             String password = etAdminPassword.getText().toString();
             if(checkLogin(username, password) == 0){
-                    Toast.makeText(Login_Activity.this, "Đăng nhập admin thành công", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(Login_Activity.this, DashboardActivity.class));
+                Toast.makeText(Login_Activity.this, "Đăng nhập admin thành công", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Login_Activity.this, DashboardActivity.class);
+                intent.putExtra("userId", user_id);
+                startActivity(intent);
+                return;
             }else {
                 Toast.makeText(Login_Activity.this, "Sai tên đăng nhập hoặc mật khẩu", Toast.LENGTH_SHORT).show();
             }
@@ -264,9 +271,11 @@ public class Login_Activity extends AppCompatActivity {
 
         for (User user : userArrayList) {
             if ((user.getEmail().equals(username) || user.getSdt().equals(username)) && user.getPassword().equals(password) && user.getType()==1) {
+                user_id = user.getUserId();
                 return 1;
             }
             if ((user.getEmail().equals(username) || user.getSdt().equals(username)) && user.getPassword().equals(password) && user.getType()==0){
+                user_id = user.getUserId();
                 return 0;
             }
         }

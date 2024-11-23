@@ -15,7 +15,7 @@
 
         <!-- Nút Back -->
         <ImageButton
-            android:id="@+id/btnBack"
+            android:id="@+id/btnBack_home"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/icon_arrow"
@@ -45,7 +45,7 @@
 
         <!-- AutoCompleteTextView -->
         <AutoCompleteTextView
-            android:id="@+id/search_product"
+            android:id="@+id/search_product_list"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -70,54 +70,39 @@
 
     <!-- Bộ lọc -->
     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sắp xếp:"
-        android:paddingEnd="8dp"
-        android:textColor="@color/black" />
-
-    <Spinner
-        android:id="@+id/spinnerSort"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dropdown"
-        android:entries="@array/sort_options"
-        android:layout_gravity="center_vertical" />
-
-    </LinearLayout>
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:paddingTop="8dp"
         android:paddingBottom="8dp">
 
-        <LinearLayout
-            android:id="@+id/linearLayoutDanhMuc"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-        </LinearLayout>
-    </HorizontalScrollView>
+            android:text="Sắp xếp:"
+            android:paddingEnd="8dp"
+            android:textColor="@color/black" />
+
+        <Spinner
+            android:id="@+id/spinnerSort_sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:entries="@array/sort_options"
+            android:layout_gravity="center_vertical" />
+
+    </LinearLayout>
 
 
-        <!-- Danh sách sản phẩm -->
+    <!-- Danh sách sản phẩm -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <!-- TextView hiển thị thông báo khi không có sản phẩm -->
         <TextView
-            android:id="@+id/tvNoProducts"
+            android:id="@+id/tvNoProducts_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Không có sản phẩm nào."
@@ -128,9 +113,9 @@
 
         <!-- RecyclerView để hiển thị danh sách sản phẩm -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewSanPham"
+            android:id="@+id/recyclerViewSanPham_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/tvNoProducts" />
     </RelativeLayout>
-    </LinearLayout>
+</LinearLayout>

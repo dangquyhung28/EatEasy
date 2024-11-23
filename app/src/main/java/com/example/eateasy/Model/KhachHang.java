@@ -2,7 +2,9 @@ package com.example.eateasy.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class KhachHang {
+import java.io.Serializable;
+
+public class KhachHang implements Serializable {
 
     @SerializedName("MaKH")
     private String maKH;

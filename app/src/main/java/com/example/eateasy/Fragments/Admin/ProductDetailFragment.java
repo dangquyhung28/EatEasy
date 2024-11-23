@@ -59,7 +59,7 @@ public class ProductDetailFragment extends Fragment {
     private DanhMucInterface categoryInterface;
     private String maSP;
     private Uri productImageUri;
-    private String imgEdit;
+    private String imgEdit, anhSanPham;
 
     @Nullable
     @Override
@@ -203,12 +203,9 @@ public class ProductDetailFragment extends Fragment {
                 String tenDanhMuc = spinnerMaDanhMuc.getSelectedItem().toString();
                 String maDanhMuc = danhMucMap.get(tenDanhMuc);
                 //String anhSanPham = imgEdit;// Lấy URI ảnh
-                if (imgEdit == null || imgEdit.isEmpty()) {
-                    Toast.makeText(getContext(), "Đang tải ảnh lên, vui lòng chờ...", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                anhSanPham = (imgEdit == null || imgEdit.isEmpty()) ? String.valueOf(productImageUri) : imgEdit;
                 // Tạo đối tượng sản phẩm mới
-                SanPham sanPham = new SanPham(maSP, tenSP, moTa, giaBan, giaNhap, soLuong, maDanhMuc, imgEdit);
+                SanPham sanPham = new SanPham(maSP, tenSP, moTa, giaBan, giaNhap, soLuong, maDanhMuc, anhSanPham);
                 Gson gson = new Gson();
                 String json = gson.toJson(sanPham);
                 Log.d("SanPhamJSON", json);
@@ -223,7 +220,7 @@ public class ProductDetailFragment extends Fragment {
 
                 // Sử dụng Glide để tải ảnh sản phẩm
                 Glide.with(requireContext())
-                        .load(imgEdit)
+                        .load(anhSanPham)
                         .placeholder(R.drawable.ic_product_management)
                         .error(R.drawable.icon_infomation)
                         .into(productImage);

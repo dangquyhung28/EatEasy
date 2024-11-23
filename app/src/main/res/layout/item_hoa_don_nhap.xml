@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:weightSum="4">
+
+    <!-- Mã Hóa Đơn -->
+    <TextView
+        android:id="@+id/textViewMaHDN"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Mã HĐN"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_weight="1"
+        android:paddingEnd="10dp"/>
+
+    <!-- Mã Nhà Cung Cấp -->
+    <TextView
+        android:id="@+id/textViewMaNCC"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Mã NCC"
+        android:textSize="14sp"
+        android:layout_weight="1"
+        android:paddingEnd="10dp"/>
+
+    <!-- Ngày Lập -->
+    <TextView
+        android:id="@+id/textViewNgayLap"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Ngày lập"
+        android:textSize="14sp"
+        android:layout_weight="1"
+        android:paddingEnd="10dp"/>
+
+    <!-- Tổng Tiền -->
+    <TextView
+        android:id="@+id/textViewTongTien"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Tổng tiền"
+        android:textSize="14sp"
+        android:layout_weight="1"
+        android:gravity="end"/>
+
+</LinearLayout>

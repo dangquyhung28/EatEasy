@@ -25,6 +25,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
@@ -51,6 +52,7 @@ public class SanPhamActivity extends AppCompatActivity {
     private ImageButton btnBack;
     private EditText edtSearch;
     private Spinner spinnerSort;
+    private ArrayList<SanPham> originalSanPhamList = new ArrayList<>();
     private RecyclerView recyclerViewSanPham;
     private BestFoodAdapter sanPhamAdapter;
     private ArrayList<SanPham> sanPhamList;
@@ -59,6 +61,9 @@ public class SanPhamActivity extends AppCompatActivity {
     HorizontalScrollView horizontalScrollView ;
     LinearLayout linearLayoutDanhMuc;
     List<DanhMuc> danhMucList;
+    TextView tvNoProducts;
+    String maKH;
+    private AutoCompleteTextView searchProduct;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,22 +72,57 @@ public class SanPhamActivity extends AppCompatActivity {
         Intent intent = getIntent();
         danhMucList = (List<DanhMuc>) intent.getSerializableExtra("danhMucList");
         maDanhMuc = intent.getStringExtra("maDanhMuc");
+        maKH = intent.getStringExtra("maKH");
         initwiget();
         sanPhamList = new ArrayList<>();
-        sanPhamAdapter = new BestFoodAdapter(this, sanPhamList);
+        sanPhamAdapter = new BestFoodAdapter(this, sanPhamList,maKH);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         recyclerViewSanPham.setLayoutManager(layoutManager);
         recyclerViewSanPham.setAdapter(sanPhamAdapter);
         sanPhamInterface = SanPhamUtils.getProdutsService();
         loadSanPham(maDanhMuc);
         loadDanhMuc();
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        
+        //sort
+        spinnerSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0: // Giá tăng dần
+                        sortSanPhamByGia(true);
+                        break;
+                    case 1: // Giá giảm dần
+                        sortSanPhamByGia(false);
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Không làm gì nếu không có lựa chọn
+            }
+        });
 
 
+    }
 
-
-
-
-
+    private void sortSanPhamByGia(boolean isAscending) {
+        if (sanPhamList != null && !sanPhamList.isEmpty()) {
+            Collections.sort(sanPhamList, (o1, o2) -> {
+                if (isAscending) {
+                    return Float.compare(o1.getGiaBan(), o2.getGiaBan()); // Sắp xếp tăng dần
+                } else {
+                    return Float.compare(o2.getGiaBan(), o1.getGiaBan()); // Sắp xếp giảm dần
+                }
+            });
+            sanPhamAdapter.notifyDataSetChanged();
+        }
     }
 
     private void loadSanPham(String maDanhMuc) {
@@ -90,7 +130,17 @@ public class SanPhamActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArrayList<SanPham>> call, Response<ArrayList<SanPham>> response) {
                 sanPhamList.clear();
-                sanPhamList.addAll(response.body());
+                if (response.body() != null && !response.body().isEmpty()) {
+                    sanPhamList.addAll(response.body());
+                    originalSanPhamList.clear();
+                    originalSanPhamList.addAll(response.body());
+                    setupAutoComplete(searchProduct, sanPhamList);
+                    recyclerViewSanPham.setVisibility(View.VISIBLE);
+                    tvNoProducts.setVisibility(View.GONE);
+                } else {
+                    recyclerViewSanPham.setVisibility(View.GONE);
+                    tvNoProducts.setVisibility(View.VISIBLE);
+                }
                 sanPhamAdapter.notifyDataSetChanged();
             }
 
@@ -101,6 +151,51 @@ public class SanPhamActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void setupAutoComplete(AutoCompleteTextView searchProduct, ArrayList<SanPham> sanPhamList) {
+        ArrayList<String> productNames = new ArrayList<>();
+        for (SanPham product : sanPhamList) {
+            productNames.add(product.getTenSP()); // Thêm tên sản phẩm vào danh sách gợi ý
+        }
+
+        ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<>(SanPhamActivity.this,
+                android.R.layout.simple_dropdown_item_1line, productNames);
+
+        searchProduct.setAdapter(autoCompleteAdapter);
+
+        // Xử lý khi người dùng chọn một sản phẩm từ gợi ý
+        searchProduct.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedProductName = (String) parent.getItemAtPosition(position);
+            filterProduct(selectedProductName);
+        });
+
+        // Lọc danh sách khi người dùng nhập từ khóa
+        searchProduct.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterProduct(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+    }
+    private void filterProduct(String keyword) {
+        sanPhamList.clear(); // Xóa danh sách hiện tại
+
+        for (SanPham product : originalSanPhamList) { // Duyệt qua danh sách gốc
+            if (product.getTenSP().toLowerCase().contains(keyword.toLowerCase())) {
+                sanPhamList.add(product); // Thêm sản phẩm phù hợp vào danh sách
+            }
+        }
+
+        sanPhamAdapter.notifyDataSetChanged(); // Cập nhật giao diện RecyclerView
     }
 
     private void loadDanhMuc() {
@@ -137,10 +232,13 @@ public class SanPhamActivity extends AppCompatActivity {
     private void initwiget() {
         // Ánh xạ view
         btnBack = findViewById(R.id.btnBack);
-        edtSearch = findViewById(R.id.edtSearch);
+        searchProduct = findViewById(R.id.search_product);
         spinnerSort = findViewById(R.id.spinnerSort);
         recyclerViewSanPham = findViewById(R.id.recyclerViewSanPham);
         horizontalScrollView = findViewById(R.id.horizontalScrollView);
         linearLayoutDanhMuc = findViewById(R.id.linearLayoutDanhMuc);
+        tvNoProducts = findViewById(R.id.tvNoProducts);
     }
+    
+    
 }

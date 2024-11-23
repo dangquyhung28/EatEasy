@@ -1,80 +1,98 @@
 package com.example.eateasy.Fragments.Admin;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.eateasy.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link BaoCaoThongKeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.Calendar;
+
+import javax.annotation.Nullable;
+
+
 public class BaoCaoThongKeFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private TextView tvNgay, tvThang, tvNam, tvDoanhThu;
+    private Button btnChonNgay, btnChonThang, btnChonNam, btnXemDoanhThu;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public BaoCaoThongKeFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BaoCaoThongKeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static BaoCaoThongKeFragment newInstance(String param1, String param2) {
-        BaoCaoThongKeFragment fragment = new BaoCaoThongKeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_bao_cao_thong_ke, container, false);
+
+        // Ánh xạ các view
+        tvNgay = rootView.findViewById(R.id.tvNgay);
+        tvThang = rootView.findViewById(R.id.tvThang);
+        tvNam = rootView.findViewById(R.id.tvNam);
+        tvDoanhThu = rootView.findViewById(R.id.tvDoanhThu);
+        btnChonNgay = rootView.findViewById(R.id.btnChonNgay);
+        btnChonThang = rootView.findViewById(R.id.btnChonThang);
+        btnChonNam = rootView.findViewById(R.id.btnChonNam);
+        btnXemDoanhThu = rootView.findViewById(R.id.btnXemDoanhThu);
+
+        // Chọn Ngày
+        btnChonNgay.setOnClickListener(v -> openDatePicker("ngay"));
+
+        // Chọn Tháng
+        btnChonThang.setOnClickListener(v -> openDatePicker("thang"));
+
+        // Chọn Năm
+        btnChonNam.setOnClickListener(v -> openDatePicker("nam"));
+
+        // Xem Doanh Thu
+        btnXemDoanhThu.setOnClickListener(v -> {
+            // Hiển thị dữ liệu mẫu (thay bằng API thực tế nếu cần)
+            String ngay = tvNgay.getText().toString();
+            String thang = tvThang.getText().toString();
+            String nam = tvNam.getText().toString();
+            tvDoanhThu.setText(String.format("Doanh thu:\nNgày: %s\nTháng: %s\nNăm: %s\nTổng: %s VNĐ",
+                    ngay.isEmpty() ? "Chưa chọn" : ngay,
+                    thang.isEmpty() ? "Chưa chọn" : thang,
+                    nam.isEmpty() ? "Chưa chọn" : nam,
+                    "1.000.000")); // Ví dụ doanh thu mẫu
+        });
+
+        return rootView;
+    }
+
+    // Mở DatePicker cho ngày/tháng/năm
+    private void openDatePicker(String type) {
+        Calendar calendar = Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener listener = (view, year, month, dayOfMonth) -> {
+            switch (type) {
+                case "ngay":
+                    tvNgay.setText(String.format("%02d/%02d/%04d", dayOfMonth, month + 1, year));
+                    break;
+                case "thang":
+                    tvThang.setText(String.format("%02d/%04d", month + 1, year));
+                    break;
+                case "nam":
+                    tvNam.setText(String.format("%04d", year));
+                    break;
+            }
+        };
+
+        if (type.equals("ngay")) {
+            new DatePickerDialog(requireContext(), listener, calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+        } else if (type.equals("thang")) {
+            new DatePickerDialog(requireContext(), (view, year, month, day) -> listener.onDateSet(view, year, month, 1),
+                    calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 1).show();
+        } else {
+            new DatePickerDialog(requireContext(), (view, year, month, day) -> listener.onDateSet(view, year, 0, 1),
+                    calendar.get(Calendar.YEAR), 0, 1).show();
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (getActivity() != null) {
-            TextView toolbarTitle = getActivity().findViewById(R.id.toolbar_title);
-            ImageView iconNotification = getActivity().findViewById(R.id.icon_notification);
-
-            toolbarTitle.setText("Báo cáo thống kê"); // Change title for ProductFragment
-            iconNotification.setImageResource(R.drawable.icon_blackboard_admin); // Set a different icon if needed
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bao_cao_thong_ke, container, false);
     }
 }

@@ -23,7 +23,7 @@
             android:id="@+id/search_khachhang_admin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tìm kiếm sản phẩm"
+            android:hint="Tìm kiếm khach hang"
             android:inputType="text"
             android:padding="8dp"
             android:background="@drawable/grey_backgound"

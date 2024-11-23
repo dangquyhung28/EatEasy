@@ -26,10 +26,12 @@ import java.util.List;
 public class CategoryAdapter  extends  RecyclerView.Adapter<CategoryAdapter.CategotyViewHolder>{
     private List<DanhMuc> danhMucList;
     private Context context;
+    String maKH;
 
-    public CategoryAdapter(Context context, List<DanhMuc> danhMucList) {
+    public CategoryAdapter(Context context, List<DanhMuc> danhMucList, String makh) {
         this.context = context;
         this.danhMucList = danhMucList;
+        this.maKH = makh;
     }
 
     @NonNull
@@ -54,6 +56,7 @@ public class CategoryAdapter  extends  RecyclerView.Adapter<CategoryAdapter.Cate
             intent.putExtra("maDanhMuc",maDanhMuc);
             List<DanhMuc> danhMucArrayList = getDanhMucList();
             intent.putExtra("danhMucList", (Serializable) danhMucList);
+            intent.putExtra("maKH", maKH);
             v.getContext().startActivity(intent);
         });
 
@@ -85,11 +88,11 @@ public class CategoryAdapter  extends  RecyclerView.Adapter<CategoryAdapter.Cate
             case "DM01":
                 return R.drawable.snack_icon;
             case "DM02":
-                return R.drawable.icon_home_admin;
+                return R.drawable.icon_dink;
             case "DM03":
-                return R.drawable.ic_product_management;
+                return R.drawable.icon_candy;
             default:
-                return R.drawable.icon_cart_admin;
+                return R.drawable.icon_cookie_48;
         }
     }
 }
