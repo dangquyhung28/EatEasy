@@ -59,7 +59,7 @@ public class ProductDetailFragment extends Fragment {
     private DanhMucInterface categoryInterface;
     private String maSP;
     private Uri productImageUri;
-    private String imgEdit;
+    private String imgEdit, anhSanPham;
 
     @Nullable
     @Override
@@ -113,7 +113,7 @@ public class ProductDetailFragment extends Fragment {
 
             // Sử dụng Glide để tải ảnh sản phẩm
             Glide.with(requireContext())
-                    .load(productImageUrl)
+                    .load(productImageUri)
                     .placeholder(R.drawable.ic_product_management)
                     .error(R.drawable.icon_infomation)
                     .into(productImage);
@@ -203,17 +203,27 @@ public class ProductDetailFragment extends Fragment {
                 String tenDanhMuc = spinnerMaDanhMuc.getSelectedItem().toString();
                 String maDanhMuc = danhMucMap.get(tenDanhMuc);
                 //String anhSanPham = imgEdit;// Lấy URI ảnh
-                if (imgEdit == null || imgEdit.isEmpty()) {
-                    Toast.makeText(getContext(), "Đang tải ảnh lên, vui lòng chờ...", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Uri imageUriProduct = Uri.parse(imgEdit);
-                imgProduct.setImageURI(imageUriProduct);
+                anhSanPham = (imgEdit == null || imgEdit.isEmpty()) ? String.valueOf(productImageUri) : imgEdit;
                 // Tạo đối tượng sản phẩm mới
-                SanPham sanPham = new SanPham(maSP, tenSP, moTa, giaBan, giaNhap, soLuong, maDanhMuc, imgEdit);
+                SanPham sanPham = new SanPham(maSP, tenSP, moTa, giaBan, giaNhap, soLuong, maDanhMuc, anhSanPham);
                 Gson gson = new Gson();
                 String json = gson.toJson(sanPham);
                 Log.d("SanPhamJSON", json);
+
+                // Cập nhật lại các TextView trên màn hình chính
+                tenSPTextView.setText(tenSP);
+                giaBanTextView.setText(String.valueOf(giaBan));
+                giaNhapTextView.setText(String.valueOf(giaNhap));
+                moTaTextView.setText(moTa);
+                soLuongTextView.setText(String.valueOf(soLuong));
+                maDanhMucTextView.setText(maDanhMuc);
+
+                // Sử dụng Glide để tải ảnh sản phẩm
+                Glide.with(requireContext())
+                        .load(anhSanPham)
+                        .placeholder(R.drawable.ic_product_management)
+                        .error(R.drawable.icon_infomation)
+                        .into(productImage);
 
                 // Lưu sản phẩm vào cơ sở dữ liệu
                 updateProduct(sanPham);
@@ -222,6 +232,7 @@ public class ProductDetailFragment extends Fragment {
 
             // Đóng dialog
             alertDialog.dismiss();
+
             Toast.makeText(getContext(), "Sản phẩm đã được lưu!", Toast.LENGTH_SHORT).show();
         });
         btnClose.setOnClickListener(v -> alertDialog.dismiss());
@@ -273,10 +284,10 @@ public class ProductDetailFragment extends Fragment {
         storageHelper.uploadImage(imageUri, new FirebaseStorageHelper.OnImageUploadCallback() {
             @Override
             public void onSuccess(String imageUrl) {
-                Toast.makeText(getContext(), "Upload thành công! URL: " + imageUrl, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Upload thành công!", Toast.LENGTH_SHORT).show();
                 Log.d("Firebase URL", imageUrl);
                 imgEdit = imageUrl;
-
+                Glide.with(requireContext()).load(imgEdit).into(imgProduct);
             }
 
             @Override

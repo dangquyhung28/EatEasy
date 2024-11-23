@@ -12,6 +12,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface SanPhamInterface {
     @GET("api/sanpham/getall")
@@ -25,6 +26,9 @@ public interface SanPhamInterface {
 
     @DELETE("api/sanpham/delete/{id}")
     Call<ResponseBody> deleteProduct(@Path("id") String id);
+
+    @GET("/api/sanpham/danhmuc")
+    Call<ArrayList<SanPham>> getSanPhamByMaDanhMuc(@Query("MaDanhMuc") String maDanhMuc);
 
 
 }

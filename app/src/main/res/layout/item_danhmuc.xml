@@ -6,15 +6,15 @@
     android:gravity="center"
     android:padding="16dp"
     android:layout_margin="8dp"
-    android:background="?android:attr/selectableItemBackground"
+    android:background="@drawable/item_background"
     android:clickable="true"
     android:focusable="true">
 
     <!-- Icon của danh mục -->
     <ImageView
         android:id="@+id/iconDanhMuc"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="center"
         android:src="@drawable/ic_product_management" />
 
@@ -24,8 +24,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tên Danh Mục"
-        android:textSize="14sp"
+        android:textSize="10dp"
         android:layout_marginTop="8dp"
+        android:textAllCaps="true"
         android:gravity="center"
         android:textColor="@android:color/black" />
 </LinearLayout>

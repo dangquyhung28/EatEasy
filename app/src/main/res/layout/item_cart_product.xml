@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginBottom="8dp"
+    android:gravity="center_vertical"
+    android:background="@drawable/item_background"
+    android:padding="16dp">
+
+    <!-- Ảnh sản phẩm -->
+    <ImageView
+        android:id="@+id/anhSanPhamImgV"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="centerCrop" />
+
+    <!-- Nội dung sản phẩm -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="16dp">
+
+
+        <TextView
+            android:id="@+id/tenSPV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tên sản phẩm"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:textStyle="bold" />
+
+        <!-- Giá bán -->
+        <TextView
+            android:id="@+id/giaBanTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giá bán"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp" />
+
+        <!-- Mô tả sản phẩm với dấu "..." nếu dài -->
+        <TextView
+            android:id="@+id/moTaTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Mô tả sản phẩm dài, ví dụ nội dung rất dài và cần rút gọn..."
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- Các biểu tượng chỉnh sửa và xóa -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="right"
+        android:layout_gravity="top"
+        android:layout_marginTop="8dp">
+
+        <!-- Nút trừ -->
+
+
+    </LinearLayout>
+
+
+    <!-- Các biểu tượng chỉnh sửa và xóa -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="8dp">
+
+        <!-- Nút trừ -->
+        <TextView
+            android:id="@+id/btn_minus"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:gravity="center"
+            android:text="-"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:background="@drawable/button_rounded"
+            android:layout_marginEnd="4dp" />
+
+        <!-- TextView hiển thị số -->
+        <TextView
+            android:id="@+id/tv_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:layout_marginHorizontal="4dp" />
+
+        <!-- Nút cộng -->
+        <TextView
+            android:id="@+id/btn_plus"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:gravity="center"
+            android:text="+"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:background="@drawable/button_rounded"
+            android:layout_marginEnd="4dp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/icon_delete"
+        android:layout_width="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
+        android:background="@drawable/icon_delete_24">
+
+    </ImageView>
+
+
+</LinearLayout>

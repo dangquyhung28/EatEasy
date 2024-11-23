@@ -50,9 +50,9 @@ public class RegisterActivity extends AppCompatActivity {
 
             if (userList != null && !userList.isEmpty()) {
                 // Xử lý dữ liệu userArrayList
-                Toast.makeText(this, "Danh sách người dùng nhận thành công", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Đăng kí", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Không có người dùng", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Đăng kí", Toast.LENGTH_SHORT).show();
             }
         }
 
