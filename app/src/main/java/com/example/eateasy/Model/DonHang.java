@@ -2,7 +2,7 @@ package com.example.eateasy.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class HoaDonBan {
+public class DonHang {
     @SerializedName("MaDH")
     private String maDH;
 
@@ -24,7 +24,7 @@ public class HoaDonBan {
     @SerializedName("TrangThai")
     private String trangThai;
 
-    public HoaDonBan(String maDH, String maKH, String maNV, String ngayLap, String phuongThucThanhToan, double tongTien, String trangThai) {
+    public DonHang(String maDH, String maKH, String maNV, String ngayLap, String phuongThucThanhToan, double tongTien, String trangThai) {
         this.maDH = maDH;
         this.maKH = maKH;
         this.maNV = maNV;

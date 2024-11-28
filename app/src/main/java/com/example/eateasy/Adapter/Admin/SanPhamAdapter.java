@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.eateasy.Fragments.Admin.ProductDetailFragment;
+import com.example.eateasy.Fragments.Admin.SanPham.ProductDetailFragment;
 import com.example.eateasy.Model.SanPham;
 import com.example.eateasy.R;
 

@@ -12,12 +12,12 @@ import com.example.eateasy.R;
 
 import java.util.List;
 
-public class HoaDonBanAdapter extends BaseAdapter {
+public class DonXyLyAdapter extends BaseAdapter {
 
     private Context context;
     private List<DonHang> donHangList;
 
-    public HoaDonBanAdapter(Context context, List<DonHang> donHangList) {
+    public DonXyLyAdapter(Context context, List<DonHang> donHangList) {
         this.context = context;
         this.donHangList = donHangList;
     }
@@ -41,7 +41,7 @@ public class HoaDonBanAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.item_hoa_don_ban, parent, false);
+            convertView = inflater.inflate(R.layout.item_donhang_xuly, parent, false);
         }
 
         // Lấy đối tượng HoaDonBan tại vị trí hiện tại
@@ -65,3 +65,4 @@ public class HoaDonBanAdapter extends BaseAdapter {
         return convertView;
     }
 }
+

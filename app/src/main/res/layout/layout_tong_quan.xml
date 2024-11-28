@@ -1,0 +1,90 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <!-- Các ô Tổng quan -->
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:rowCount="2"
+        android:columnCount="2"
+        android:padding="8dp">
+
+        <!-- Ô 1: Giá trị kho -->
+        <TextView
+            android:id="@+id/tvGiaTriKho"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:background="@drawable/grey_backgound"
+            android:padding="16dp"
+            android:text="Giá trị kho"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:clickable="true" />
+
+        <!-- Ô 2: Số lượng -->
+        <TextView
+            android:id="@+id/tvSoLuong"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:background="@drawable/grey_backgound"
+            android:padding="16dp"
+            android:text="Số lượng"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:clickable="true" />
+
+        <!-- Ô 3: Sản phẩm còn -->
+        <TextView
+            android:id="@+id/tvSanPhamCon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:background="@drawable/grey_backgound"
+            android:padding="16dp"
+            android:text="Sản phẩm còn"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:clickable="true" />
+
+        <!-- Ô 4: Sản phẩm hết -->
+        <TextView
+            android:id="@+id/tvSanPhamHet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:background="@drawable/grey_backgound"
+            android:padding="16dp"
+            android:text="Sản phẩm hết"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:clickable="true" />
+    </GridLayout>
+
+    <!-- Phần hiển thị chi tiết -->
+    <TextView
+        android:id="@+id/tvChiTiet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="16dp"
+        android:background="@drawable/grey_backgound"
+        android:text="Chọn một ô để xem chi tiết."
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:gravity="center" />
+</LinearLayout>

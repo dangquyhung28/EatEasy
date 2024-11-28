@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
-import com.example.eateasy.Fragments.Admin.*;
+
+import com.example.eateasy.Fragments.Admin.DonBan.QuanLyDonBanFragment;
+import com.example.eateasy.Fragments.Admin.DonNhap.QuanLyDonNhapFragment;
 
 public class OrderPagerAdapter extends FragmentStateAdapter {
 

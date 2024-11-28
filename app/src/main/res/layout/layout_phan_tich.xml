@@ -1,0 +1,34 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <!-- Nhập kho -->
+    <TextView
+        android:id="@+id/tvNhapKho"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nhập kho: 0"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:padding="8dp" />
+
+    <!-- Xuất kho -->
+    <TextView
+        android:id="@+id/tvXuatKho"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Xuất kho: 0"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:padding="8dp" />
+
+    <!-- Biểu đồ cột -->
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/barChartAnalysis"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="16dp" />
+</LinearLayout>

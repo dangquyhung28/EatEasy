@@ -7,4 +7,14 @@
         <item>Giá tăng dần</item>
         <item>Giá giảm dần</item>
     </string-array>
+
+    <string-array name="baocao_option">
+        <item>Sản phẩm</item>
+        <item>Đơn hàng</item>
+    </string-array>
+
+    <string name="facebook_app_id">8878318695560015</string>
+    <string name="fb_login_protocol_scheme">fb8878318695560015</string>
+    <string name="facebook_client_token">dadb151aedd7e6219728b591acae7239</string>
+
 </resources>
