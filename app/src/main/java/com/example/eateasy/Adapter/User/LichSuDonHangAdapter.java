@@ -1,4 +1,4 @@
-package com.example.eateasy.Adapter.Admin;
+package com.example.eateasy.Adapter.User;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,12 +12,12 @@ import com.example.eateasy.R;
 
 import java.util.List;
 
-public class HoaDonBanAdapter extends BaseAdapter {
+public class LichSuDonHangAdapter extends BaseAdapter {
 
     private Context context;
     private List<DonHang> donHangList;
 
-    public HoaDonBanAdapter(Context context, List<DonHang> donHangList) {
+    public LichSuDonHangAdapter(Context context, List<DonHang> donHangList) {
         this.context = context;
         this.donHangList = donHangList;
     }

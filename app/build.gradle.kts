@@ -79,6 +79,13 @@ dependencies {
     // RecyclerView
     implementation("androidx.recyclerview:recyclerview:1.2.1")
 
+    //dang ki fb
+    implementation("com.facebook.android:facebook-android-sdk:latest.release")
+
+
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+
 
 
 

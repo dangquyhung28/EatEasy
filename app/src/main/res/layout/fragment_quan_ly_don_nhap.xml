@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.Admin.QuanLyDonNhapFragment"
+    tools:context=".Fragments.Admin.DonNhap.QuanLyDonNhapFragment"
     >
 
 
@@ -24,7 +24,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Fragments.Admin.ProductFragment"></ImageView>
+        tools:context=".Fragments.Admin.SanPham.ProductFragment"></ImageView>
 
     <!-- Thanh tìm kiếm -->
     <LinearLayout

@@ -28,24 +28,37 @@ import com.example.eateasy.Model.User;
 import com.example.eateasy.R;
 import com.example.eateasy.Retrofit.Interface.UserInterface;
 import com.example.eateasy.Retrofit.Utils.UserUtils;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
 public class Login_Activity extends AppCompatActivity {
     EditText edtUsername, edtPass;
     Button btnLogin;
-    TextView txtDangKi,tvQuenMK;
+    TextView txtDangKi, tvQuenMK;
     ImageView imgFb, imgGG;
     ImageButton imgBSetting;
     UserInterface userInterface;
     CheckBox cbShowPassword;
     ArrayList<User> userArrayList = new ArrayList<>();
     int user_id;
+    CallbackManager callbackManager;
 
 
     private BroadcastReceiver networkStatusReceiver = new BroadcastReceiver() {
@@ -65,6 +78,7 @@ public class Login_Activity extends AppCompatActivity {
             }
         }
     };
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -87,6 +101,7 @@ public class Login_Activity extends AppCompatActivity {
 
         //anh xa
         initwiget();
+        callbackManager = CallbackManager.Factory.create();
 
         //hiện pass
         cbShowPassword.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -99,38 +114,82 @@ public class Login_Activity extends AppCompatActivity {
         });
 
         //xu ly DANG NHAP
-        userInterface = UserUtils.getUserService();
-        userInterface.getAllUser().enqueue(new Callback<ArrayList<User>>() {
-            @Override
-            public void onResponse(Call<ArrayList<User>> call, Response<ArrayList<User>> response) {
-                userArrayList.clear();
-                userArrayList.addAll(response.body());
-                //Toast.makeText(Login_Activity.this,""+userArrayList.get(0).getEmail(), Toast.LENGTH_SHORT).show();
-            }
+        loadUser();
 
-            @Override
-            public void onFailure(Call<ArrayList<User>> call, Throwable t) {
-                Toast.makeText(Login_Activity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String username = edtUsername.getText().toString().trim();
                 String password = edtPass.getText().toString().trim();
-                if(checkLogin(username, password)==1 || checkLogin(username, password)==0){
+                if (checkLogin(username, password) == 1 || checkLogin(username, password) == 0) {
 
                     Toast.makeText(Login_Activity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(Login_Activity.this, HomeActivity.class);
                     intent.putExtra("userId", user_id);
                     startActivity(intent);
-                }else {
+                } else {
                     Toast.makeText(Login_Activity.this, "Sai tên đăng nhập hoặc mật khẩu", Toast.LENGTH_SHORT).show();
                 }
             }
 
         });
+        //login Fb
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        // Lấy Access Token
+                        String accessToken = loginResult.getAccessToken().getToken();
 
+                        // Gửi yêu cầu để lấy thông tin người dùng
+                        GraphRequest request = GraphRequest.newMeRequest(
+                                loginResult.getAccessToken(),
+                                new GraphRequest.GraphJSONObjectCallback() {
+                                    @Override
+                                    public void onCompleted(JSONObject object, GraphResponse response) {
+                                        try {
+                                            // Lấy thông tin từ object
+                                            String facebookId = object.getString("id");
+                                            String name = object.optString("name");
+                                            String email = object.optString("email");
+
+                                            // Đăng nhập thành công, lưu thông tin vào bảng User
+                                            saveUserToDatabase(facebookId, name, email);
+
+                                            // Chuyển tới HomeActivity
+                                            startActivity(new Intent(Login_Activity.this, HomeActivity.class));
+                                            finish();
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+
+                        // Yêu cầu các trường thông tin từ Facebook
+                        Bundle parameters = new Bundle();
+                        parameters.putString("fields", "id,name,email");
+                        request.setParameters(parameters);
+                        request.executeAsync();
+                    }
+
+
+                    @Override
+                    public void onCancel() {
+                        // App code
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        // App code
+                    }
+                });
+        imgFb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginManager.getInstance().logInWithReadPermissions(Login_Activity.this, Arrays.asList("public_profile"));
+            }
+        });
+        //LOGIN GG
 
 
         //Đăng kí
@@ -191,6 +250,62 @@ public class Login_Activity extends AppCompatActivity {
             builder.show();
         });
     }
+
+    private void loadUser() {
+        userInterface = UserUtils.getUserService();
+        userInterface.getAllUser().enqueue(new Callback<ArrayList<User>>() {
+            @Override
+            public void onResponse(Call<ArrayList<User>> call, Response<ArrayList<User>> response) {
+                userArrayList.clear();
+                userArrayList.addAll(response.body());
+                //Toast.makeText(Login_Activity.this,""+userArrayList.get(0).getEmail(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<User>> call, Throwable t) {
+                Toast.makeText(Login_Activity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void saveUserToDatabase(String facebookId, String name, String email) {
+        User user = new User("trống",email,"trống",1,facebookId);
+        addUserToDatabase(user, email);
+    }
+
+    private void addUserToDatabase(User user, String email) {
+        //Tạo API Interface và gửi yêu cầuuu
+        userInterface.addUser(user).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(Login_Activity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                    loadUser();
+                    for (User user : userArrayList) {
+                        if ((user.getEmail().equals(email) && user.getType() == 1)) {
+                            user_id = user.getUserId();
+                            Intent intent = new Intent(Login_Activity.this, HomeActivity.class);
+                            intent.putExtra("userId", user_id);
+                            startActivity(intent);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(Login_Activity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    //fb
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     //Hộp thoại đăng nhập ADminh
     private void showAdminLoginDialog() {
         // Tạo một AlertDialog
@@ -213,13 +328,13 @@ public class Login_Activity extends AppCompatActivity {
         btnAdminLogin.setOnClickListener(v -> {
             String username = etAdminUsername.getText().toString();
             String password = etAdminPassword.getText().toString();
-            if(checkLogin(username, password) == 0){
+            if (checkLogin(username, password) == 0) {
                 Toast.makeText(Login_Activity.this, "Đăng nhập admin thành công", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Login_Activity.this, DashboardActivity.class);
                 intent.putExtra("userId", user_id);
                 startActivity(intent);
                 return;
-            }else {
+            } else {
                 Toast.makeText(Login_Activity.this, "Sai tên đăng nhập hoặc mật khẩu", Toast.LENGTH_SHORT).show();
             }
 
@@ -244,41 +359,42 @@ public class Login_Activity extends AppCompatActivity {
         });
     }
 
-    private void initwiget() {
-        edtUsername = findViewById(R.id.etUsername);
-        edtPass = findViewById(R.id.etPassword);
-        txtDangKi = findViewById(R.id.tvDangKi);
-        imgFb  = findViewById(R.id.iconFacebook);
-        imgGG = findViewById(R.id.iconGoogle);
-        imgBSetting = findViewById(R.id.settings_button);
-        btnLogin = findViewById(R.id.button_login);
-        cbShowPassword = findViewById(R.id.cbShowPassword);
-        tvQuenMK = findViewById(R.id.tvQuenMK);
-    }
 
-    //check login
-    private Integer checkLogin(String username, String password) {
+        private void initwiget() {
+            edtUsername = findViewById(R.id.etUsername);
+            edtPass = findViewById(R.id.etPassword);
+            txtDangKi = findViewById(R.id.tvDangKi);
+            imgFb = findViewById(R.id.iconGG);
+            imgGG = findViewById(R.id.iconFb);
+            imgBSetting = findViewById(R.id.settings_button);
+            btnLogin = findViewById(R.id.button_login);
+            cbShowPassword = findViewById(R.id.cbShowPassword);
+            tvQuenMK = findViewById(R.id.tvQuenMK);
+        }
 
-        if (username.isEmpty()) {
-            edtUsername.setError("Tên đăng nhập không được trống");
+        //check login
+        private Integer checkLogin (String username, String password){
+
+            if (username.isEmpty()) {
+                edtUsername.setError("Tên đăng nhập không được trống");
+                return -1;
+            }
+
+            if (password.isEmpty()) {
+                edtPass.setError("Mật khẩu không được trống");
+                return -1;
+            }
+
+            for (User user : userArrayList) {
+                if ((user.getEmail().equals(username) || user.getSdt().equals(username)) && user.getPassword().equals(password) && user.getType() == 1) {
+                    user_id = user.getUserId();
+                    return 1;
+                }
+                if ((user.getEmail().equals(username) || user.getSdt().equals(username)) && user.getPassword().equals(password) && user.getType() == 0) {
+                    user_id = user.getUserId();
+                    return 0;
+                }
+            }
             return -1;
         }
-
-        if (password.isEmpty()) {
-            edtPass.setError("Mật khẩu không được trống");
-            return -1;
-        }
-
-        for (User user : userArrayList) {
-            if ((user.getEmail().equals(username) || user.getSdt().equals(username)) && user.getPassword().equals(password) && user.getType()==1) {
-                user_id = user.getUserId();
-                return 1;
-            }
-            if ((user.getEmail().equals(username) || user.getSdt().equals(username)) && user.getPassword().equals(password) && user.getType()==0){
-                user_id = user.getUserId();
-                return 0;
-            }
-        }
-        return -1;
     }
-}

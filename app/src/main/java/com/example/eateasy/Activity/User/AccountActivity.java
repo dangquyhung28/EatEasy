@@ -54,6 +54,15 @@ public class AccountActivity extends AppCompatActivity {
                 startActivity(intent1);
             }
         });
+
+        btn_edit_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(AccountActivity.this, OderHistoryActivity.class);
+                intent1.putExtra("maKH", maKH);
+                startActivity(intent1);
+            }
+        });
     }
     private void fetchAndCheckCustomer(String id) {
         KhachHangInterface khachHangInterface = KhachHangUtils.getKhachHangService();

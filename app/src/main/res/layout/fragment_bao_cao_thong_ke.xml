@@ -1,76 +1,26 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Tiêu đề -->
-    <TextView
-        android:id="@+id/tvTitle"
+    <!-- TabLayout -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Báo Cáo Thống Kê"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:padding="8dp" />
+        app:tabMode="fixed"
+        app:tabGravity="fill" />
 
-    <!-- Ngày/Tháng/Năm -->
-    <TextView
-        android:id="@+id/tvNgay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ngày: Chưa chọn"
-        android:padding="4dp" />
-
-    <Button
-        android:id="@+id/btnChonNgay"
+    <!-- ViewPager2 -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Chọn Ngày" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp" />
 
-    <TextView
-        android:id="@+id/tvThang"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tháng: Chưa chọn"
-        android:padding="4dp" />
-
-    <Button
-        android:id="@+id/btnChonThang"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Chọn Tháng" />
-
-    <TextView
-        android:id="@+id/tvNam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Năm: Chưa chọn"
-        android:padding="4dp" />
-
-    <Button
-        android:id="@+id/btnChonNam"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Chọn Năm" />
-
-    <!-- Nút Xem Doanh Thu -->
-    <Button
-        android:id="@+id/btnXemDoanhThu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Xem Doanh Thu"
-        android:layout_marginTop="16dp" />
-
-    <!-- Hiển thị Doanh Thu -->
-    <TextView
-        android:id="@+id/tvDoanhThu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Doanh Thu:"
-        android:textStyle="bold"
-        android:padding="8dp"
-        android:gravity="center" />
 </LinearLayout>

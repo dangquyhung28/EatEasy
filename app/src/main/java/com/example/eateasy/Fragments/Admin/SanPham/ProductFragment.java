@@ -1,7 +1,6 @@
-package com.example.eateasy.Fragments.Admin;
+package com.example.eateasy.Fragments.Admin.SanPham;
 
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -26,8 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -56,7 +53,7 @@ import retrofit2.Response;
 public class ProductFragment extends Fragment {
     SanPhamInterface productsInterface;
     RecyclerView recyclerView;
-    TextView sl;
+    TextView sl, tvTatCa , tvBanChay, tvSapHetHang, tvBanYeu;
     ImageView imgProductnew;
     SanPhamAdapter adapter;
     private HashMap<String, String> danhMucMap;
@@ -82,11 +79,54 @@ public class ProductFragment extends Fragment {
         sl = view.findViewById(R.id.tv_total_products);
         searchProduct = view.findViewById(R.id.search_product_admin);
         recyclerView = view.findViewById(R.id.recyclerView);
+        tvTatCa = view.findViewById(R.id.tv_tat_ca);
+        tvBanChay = view.findViewById(R.id.tv_ban_chay);
+        tvSapHetHang = view.findViewById(R.id.tv_sap_het_hang);
+        tvBanYeu = view.findViewById(R.id.tv_ban_yeu);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new SanPhamAdapter(getContext(), sanPhamList);
         recyclerView.setAdapter(adapter);
         categoryInterface = DanhMucUtils.getCategoryService();
         //load product
+        updateProductList();
+        tvTatCa.setOnClickListener(v -> {
+            updateProductList();
+        });
+
+        tvBanChay.setOnClickListener(v -> {
+
+        });
+
+        tvSapHetHang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sanPhamList.clear();
+                for(SanPham sp : originalSanPhamList){
+
+                    if(sp.getSoLuong() <= 20){
+                        sanPhamList.add(sp);
+
+                    }
+                }
+                Log.d("SanPhamList", "Tổng số sản phẩm: " + sanPhamList.size());
+                Log.d("SanPhamList", "Tổng số sản phẩm: " + originalSanPhamList.size());
+                sl.setText("Tổng số sản phẩm: "+sanPhamList.size());
+                adapter.notifyDataSetChanged();
+                setupAutoComplete(searchProduct, sanPhamList);
+                Toast.makeText(getContext(), "Danh sách sản phẩm", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        tvBanYeu.setOnClickListener(v -> {
+
+        });
+        sl.setText(String.valueOf(sanPhamList.size()));
+        fabAddProduct.setOnClickListener(v -> showAddProduct());
+
+        return view;
+    }
+
+    private void updateProductList() {
         productsInterface.getAllSanPham().enqueue(new Callback<ArrayList<SanPham>>() {
             @Override
             public void onResponse(Call<ArrayList<SanPham>> call, Response<ArrayList<SanPham>> response) {
@@ -107,11 +147,8 @@ public class ProductFragment extends Fragment {
                 Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-        sl.setText(String.valueOf(sanPhamList.size()));
-        fabAddProduct.setOnClickListener(v -> showAddProduct());
-
-        return view;
     }
+
     // Hàm thiết lập AutoComplete
     private void setupAutoComplete(AutoCompleteTextView searchProduct, ArrayList<SanPham> sanPhamList) {
         ArrayList<String> productNames = new ArrayList<>();

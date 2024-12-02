@@ -86,7 +86,7 @@ public class RegisterActivity extends AppCompatActivity {
                     String sdt = editTextPhoneNumber.getText().toString().trim();
                     String email = editTextEmail.getText().toString().trim();
                     String pass = editTextConfirmPassword.getText().toString();
-                    User user = new User(sdt,email,pass,1);
+                    User user = new User(sdt,email,pass,1, "chưa tạo");
                     Gson gson = new Gson();
                     String json = gson.toJson(user);
                     Log.d("UserJSON", json);

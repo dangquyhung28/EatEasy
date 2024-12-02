@@ -91,7 +91,6 @@ public class BestFoodAdapter extends RecyclerView.Adapter<BestFoodAdapter.BestFo
             progressDialog.setCancelable(false);
             progressDialog.show();
             themSanPhamVaoGioHang(maKH, sanPham.getMaSP(), 1, progressDialog);
-            // Tạo Intent để mở Activity chi tiết sản phẩm
 
         });
 

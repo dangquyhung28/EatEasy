@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.Admin.ProductFragment">
+    tools:context=".Fragments.Admin.SanPham.ProductFragment">
 
     <!-- Thanh tìm kiếm -->
     <LinearLayout
@@ -51,10 +51,60 @@
         android:layout_height="0dp"
         android:padding="8dp"
         android:clipToPadding="false"
-        app:layout_constraintTop_toBottomOf="@id/tv_total_products"
+        app:layout_constraintTop_toBottomOf="@id/horizontalScrollView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_total_products"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutDanhMuc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/tv_tat_ca"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tất cả"
+                android:padding="8dp"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/tv_ban_chay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bán chạy"
+                android:padding="8dp"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/tv_sap_het_hang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sắp hết hàng"
+                android:padding="8dp"
+                android:textColor="@android:color/black" />
+            <TextView
+                android:id="@+id/tv_ban_yeu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bán yếu"
+                android:padding="8dp"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
     <!-- FloatingActionButton cho các tùy chọn thêm sản phẩm -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton

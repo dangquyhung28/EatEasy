@@ -1,4 +1,4 @@
-package com.example.eateasy.Fragments.Admin;
+package com.example.eateasy.Fragments.Admin.SanPham;
 
 import android.app.Activity;
 

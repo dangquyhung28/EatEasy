@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.eateasy.Fragments.Admin.ProductDetailFragment;
+import com.example.eateasy.Fragments.Admin.SanPham.ProductDetailFragment;
 import com.example.eateasy.Model.SanPham;
 import com.example.eateasy.R;
 
@@ -41,7 +41,7 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.SanPhamV
         SanPham sanPham = sanPhamList.get(position);
         holder.tenSPTextView.setText(sanPham.getTenSP());
         holder.giaBanTextView.setText(String.format("Giá bán: %.0f VNĐ", sanPham.getGiaBan()));
-        holder.moTaTextView.setText(sanPham.getMoTa());
+        holder.moTaTextView.setText(String.format("Số lượng còn: "+ sanPham.getSoLuong()));
         String imageUrl =sanPham.getAnhSanPham();
         Glide.with(holder.imageView.getContext())
                 .load(imageUrl)

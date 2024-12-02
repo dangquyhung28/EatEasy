@@ -1,4 +1,4 @@
-package com.example.eateasy.Fragments.Admin;
+package com.example.eateasy.Fragments.Admin.DonBan;
 
 import android.os.Bundle;
 
@@ -12,15 +12,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.eateasy.Adapter.Admin.HoaDonBanAdapter;
-import com.example.eateasy.Adapter.Admin.HoaDonNhapAdapter;
-import com.example.eateasy.Model.HoaDonBan;
+import com.example.eateasy.Model.DonHang;
 import com.example.eateasy.R;
-import com.example.eateasy.Retrofit.Interface.HoaDonBanInterface;
-import com.example.eateasy.Retrofit.Utils.HoaDonBanUtils;
+import com.example.eateasy.Retrofit.Interface.DonHangInterface;
+import com.example.eateasy.Retrofit.Utils.DonHangUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,7 +31,7 @@ public class QuanLyDonBanFragment extends Fragment {
     private ListView lvHoaDonBan;
     TextView tvSL;
     private HoaDonBanAdapter hoaDonBanAdapter;
-    private ArrayList<HoaDonBan> hoaDonBanList;
+    private ArrayList<DonHang> donHangList;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -42,7 +40,7 @@ public class QuanLyDonBanFragment extends Fragment {
         //anh xa
         lvHoaDonBan  = view.findViewById(R.id.list_products);
         tvSL = view.findViewById(R.id.tv_total_products);
-        hoaDonBanList = new ArrayList<>();
+        donHangList = new ArrayList<>();
         loadHoaDonBan();
 
         btnAddHDBan = view.findViewById(R.id.fab_add_Pro);
@@ -61,20 +59,20 @@ public class QuanLyDonBanFragment extends Fragment {
     }
 
     private void loadHoaDonBan() {
-        HoaDonBanInterface hoaDonBanInterface;
-        hoaDonBanInterface = HoaDonBanUtils.getHoaDOnBanService();
-        hoaDonBanInterface.getAllHoaDonBan().enqueue(new Callback<ArrayList<HoaDonBan>>() {
+        DonHangInterface donHangInterface;
+        donHangInterface = DonHangUtils.getHoaDOnBanService();
+        donHangInterface.getAllHoaDonBan().enqueue(new Callback<ArrayList<DonHang>>() {
             @Override
-            public void onResponse(Call<ArrayList<HoaDonBan>> call, Response<ArrayList<HoaDonBan>> response) {
-                hoaDonBanList.clear();
-                hoaDonBanList.addAll(response.body());
-                hoaDonBanAdapter = new HoaDonBanAdapter(getContext(),hoaDonBanList);
+            public void onResponse(Call<ArrayList<DonHang>> call, Response<ArrayList<DonHang>> response) {
+                donHangList.clear();
+                donHangList.addAll(response.body());
+                hoaDonBanAdapter = new HoaDonBanAdapter(getContext(), donHangList);
                 lvHoaDonBan.setAdapter(hoaDonBanAdapter);
-                tvSL.setText("Tổng số hóa đơn nhập: " + hoaDonBanList.size());
+                tvSL.setText("Tổng số hóa đơn nhập: " + donHangList.size());
             }
 
             @Override
-            public void onFailure(Call<ArrayList<HoaDonBan>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<DonHang>> call, Throwable t) {
 
             }
         });
