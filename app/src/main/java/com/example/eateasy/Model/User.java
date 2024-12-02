@@ -23,11 +23,17 @@ public class User implements Serializable {
     @SerializedName("Type")
     private int type;
 
-    public User(String sdt, String email, String password, int type) {
+    @SerializedName("Facebook_ID")
+    private String facebook_ID;
+
+
+
+    public User(String sdt, String email, String password, int type, String facebook_ID) {
         this.sdt = sdt;
         this.email = email;
         this.password = password;
         this.type = type;
+        this.facebook_ID = facebook_ID;
     }
 
     public User(){}

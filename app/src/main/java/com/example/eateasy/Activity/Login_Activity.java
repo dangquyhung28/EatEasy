@@ -31,13 +31,18 @@ import com.example.eateasy.Retrofit.Utils.UserUtils;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -109,20 +114,8 @@ public class Login_Activity extends AppCompatActivity {
         });
 
         //xu ly DANG NHAP
-        userInterface = UserUtils.getUserService();
-        userInterface.getAllUser().enqueue(new Callback<ArrayList<User>>() {
-            @Override
-            public void onResponse(Call<ArrayList<User>> call, Response<ArrayList<User>> response) {
-                userArrayList.clear();
-                userArrayList.addAll(response.body());
-                //Toast.makeText(Login_Activity.this,""+userArrayList.get(0).getEmail(), Toast.LENGTH_SHORT).show();
-            }
+        loadUser();
 
-            @Override
-            public void onFailure(Call<ArrayList<User>> call, Throwable t) {
-                Toast.makeText(Login_Activity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,10 +138,40 @@ public class Login_Activity extends AppCompatActivity {
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        // App code
-                        startActivity(new Intent(Login_Activity.this, HomeActivity.class));
-                        finish();
+                        // Lấy Access Token
+                        String accessToken = loginResult.getAccessToken().getToken();
+
+                        // Gửi yêu cầu để lấy thông tin người dùng
+                        GraphRequest request = GraphRequest.newMeRequest(
+                                loginResult.getAccessToken(),
+                                new GraphRequest.GraphJSONObjectCallback() {
+                                    @Override
+                                    public void onCompleted(JSONObject object, GraphResponse response) {
+                                        try {
+                                            // Lấy thông tin từ object
+                                            String facebookId = object.getString("id");
+                                            String name = object.optString("name");
+                                            String email = object.optString("email");
+
+                                            // Đăng nhập thành công, lưu thông tin vào bảng User
+                                            saveUserToDatabase(facebookId, name, email);
+
+                                            // Chuyển tới HomeActivity
+                                            startActivity(new Intent(Login_Activity.this, HomeActivity.class));
+                                            finish();
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+
+                        // Yêu cầu các trường thông tin từ Facebook
+                        Bundle parameters = new Bundle();
+                        parameters.putString("fields", "id,name,email");
+                        request.setParameters(parameters);
+                        request.executeAsync();
                     }
+
 
                     @Override
                     public void onCancel() {
@@ -225,6 +248,54 @@ public class Login_Activity extends AppCompatActivity {
 
             builder.setNegativeButton("Hủy", null);
             builder.show();
+        });
+    }
+
+    private void loadUser() {
+        userInterface = UserUtils.getUserService();
+        userInterface.getAllUser().enqueue(new Callback<ArrayList<User>>() {
+            @Override
+            public void onResponse(Call<ArrayList<User>> call, Response<ArrayList<User>> response) {
+                userArrayList.clear();
+                userArrayList.addAll(response.body());
+                //Toast.makeText(Login_Activity.this,""+userArrayList.get(0).getEmail(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<User>> call, Throwable t) {
+                Toast.makeText(Login_Activity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void saveUserToDatabase(String facebookId, String name, String email) {
+        User user = new User("trống",email,"trống",1,facebookId);
+        addUserToDatabase(user, email);
+    }
+
+    private void addUserToDatabase(User user, String email) {
+        //Tạo API Interface và gửi yêu cầuuu
+        userInterface.addUser(user).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(Login_Activity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                    loadUser();
+                    for (User user : userArrayList) {
+                        if ((user.getEmail().equals(email) && user.getType() == 1)) {
+                            user_id = user.getUserId();
+                            Intent intent = new Intent(Login_Activity.this, HomeActivity.class);
+                            intent.putExtra("userId", user_id);
+                            startActivity(intent);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(Login_Activity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         });
     }
     //fb

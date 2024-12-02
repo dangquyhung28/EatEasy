@@ -27,7 +27,7 @@
             android:id="@+id/tv_today_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nhận đơn"
+            android:text="Chi tiết đơn"
             android:textStyle="bold"
             android:background="#00CC00"
             android:textSize="16sp"
