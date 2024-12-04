@@ -25,14 +25,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Lịch sử đặt hàng"
-            android:textSize="30sp"
+            android:textSize="14sp"
             android:textStyle="bold"
-            android:textColor="@color/blue_grey"
+            android:textColor="@color/black"
             android:layout_gravity="center"
             android:layout_marginStart="20dp"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
+
+        <TextView
+            android:id="@+id/notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lịch sử đặt hàng"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="#33CC33"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"/>
+    </LinearLayout>
     <!-- Danh sách đơn hàng -->
     <ListView
         android:id="@+id/order_list"

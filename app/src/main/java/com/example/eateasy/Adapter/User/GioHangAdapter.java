@@ -56,11 +56,11 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.GioHangV
         holder.moTaTV.setText(gioHang.getMoTaSanPham());
         holder.tvNumber.setText(String.valueOf(gioHang.getSoLuong()));
         String imageUrl = gioHang.getAnhSanPham();
-        Glide.with(holder.anhSanPhamImgV.getContext())
+        Glide.with(holder.anhSanPhamImg.getContext())
                 .load(imageUrl)
                 .placeholder(R.drawable.avatar) // Hình ảnh mặc định trong trường hợp không tải được
                 .error(R.drawable.avatar) // Hình ảnh hiển thị khi có lỗi
-                .into(holder.anhSanPhamImgV);
+                .into(holder.anhSanPhamImg);
 
         // Nút cộng
         holder.btnPlus.setOnClickListener(v -> {
@@ -98,7 +98,7 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.GioHangV
         });
 
         // Tạm thời để ảnh sản phẩm trống (nếu cần load ảnh, dùng Glide hoặc Picasso)
-        holder.anhSanPhamImgV.setImageResource(android.R.color.transparent);
+        //holder.anhSanPhamImg.setImageResource(android.R.color.transparent);
     }
 
     private void deleteProduct(String masp, String maKH) {
@@ -129,7 +129,7 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.GioHangV
     static class GioHangViewHolder extends RecyclerView.ViewHolder {
         TextView tenSPV, giaBanTV, moTaTV, tvNumber;
         TextView btnPlus, btnMinus;
-        ImageView anhSanPhamImgV, iconDelete;
+        ImageView anhSanPhamImg, iconDelete;
 
         public GioHangViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -139,7 +139,7 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.GioHangV
             tvNumber = itemView.findViewById(R.id.tv_number);
             btnPlus = itemView.findViewById(R.id.btn_plus);
             btnMinus = itemView.findViewById(R.id.btn_minus);
-            anhSanPhamImgV = itemView.findViewById(R.id.anhSanPhamImgV);
+            anhSanPhamImg = itemView.findViewById(R.id.anhSanPhamImgV);
             iconDelete = itemView.findViewById(R.id.icon_delete);
         }
     }

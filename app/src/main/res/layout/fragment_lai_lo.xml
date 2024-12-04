@@ -98,25 +98,6 @@
                     android:padding="8dp"
                     android:gravity="left" />
 
-                <TextView
-                    android:id="@+id/tvTotalCustomers"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Số khách hàng: 0"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:padding="8dp"
-                    android:gravity="left" />
-
-                <TextView
-                    android:id="@+id/tvAvgPerOrder"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Trung bình/đơn: 0 VND"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:padding="8dp"
-                    android:gravity="left" />
             </LinearLayout>
 
             <TextView
@@ -152,13 +133,12 @@
                     android:gravity="center" />
 
 
-
-
             </LinearLayout>
             <TableLayout
                 android:id="@+id/tableSanPham"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:stretchColumns="1">
                 <!-- Header row -->
                 <TableRow>
@@ -170,7 +150,13 @@
                         android:padding="8dp"
                         android:textStyle="bold" />
 
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ngày"
+                        android:textSize="12sp"
+                        android:padding="8dp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -179,6 +165,7 @@
                         android:textSize="12sp"
                         android:padding="8dp"
                         android:textStyle="bold" />
+
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -192,6 +179,7 @@
 
             <TableLayout
                 android:id="@+id/tableDonHang"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:stretchColumns="1">

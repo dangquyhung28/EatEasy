@@ -20,9 +20,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.eateasy.Adapter.User.GioHangAdapter;
 import com.example.eateasy.Model.GioHang;
 import com.example.eateasy.R;
+import com.example.eateasy.Retrofit.Interface.ChiTietDonHangInnterface;
 import com.example.eateasy.Retrofit.Interface.GioHangInterface;
 import com.example.eateasy.Retrofit.Interface.OnQuantityChangeListener;
 import com.example.eateasy.Retrofit.Interface.SanPhamInterface;
+import com.example.eateasy.Retrofit.Utils.ChiTietDonHangUtils;
 import com.example.eateasy.Retrofit.Utils.GioHangUtils;
 import com.example.eateasy.Retrofit.Utils.SanPhamUtils;
 import com.google.gson.JsonObject;
@@ -42,7 +44,10 @@ public class CartActivity extends AppCompatActivity {
     TextView thanhTienView, giamGiaView, tongTienView;
     ArrayList<GioHang> sanPhamGioHang= new ArrayList<>();
     GioHangAdapter cartApdapter;
+    ChiTietDonHangInnterface chiTietDonHangInnterface;
     private String maKH;
+    private  String maDon;
+    int check = 0;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +82,7 @@ public class CartActivity extends AppCompatActivity {
                 // Bắt đầu cập nhật sản phẩm
                 updateProductRecursively(0, maKH, progressDialog);
 
+
             }
         });
 
@@ -86,10 +92,8 @@ public class CartActivity extends AppCompatActivity {
     private void updateProductRecursively(final int index, String maKH, ProgressDialog progressDialog) {
         // Kiểm tra nếu đã hoàn thành việc cập nhật tất cả sản phẩm
         if (index >= sanPhamGioHang.size()) {
-            // Đóng ProgressDialog khi hoàn thành
             progressDialog.dismiss();
 
-            // Chuyển sang Activity tiếp theo
             Intent intent1 = new Intent(CartActivity.this, PaymentActivity.class);
             intent1.putExtra("maKH", maKH);
             startActivity(intent1);
@@ -112,10 +116,8 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    // Tiếp tục với sản phẩm tiếp theo
                     updateProductRecursively(index + 1, maKH, progressDialog);
                 } else {
-                    // Xử lý lỗi cập nhật thất bại
                     Log.e("API Error", "Lỗi khi cập nhật sản phẩm: " + response.message());
                     progressDialog.dismiss();
                     Toast.makeText(CartActivity.this, "Cập nhật sản phẩm thất bại: " + response.message(), Toast.LENGTH_SHORT).show();
@@ -141,6 +143,7 @@ public class CartActivity extends AppCompatActivity {
             thanhTien = thanhTien + (gh.getSoLuong()*gh.getGiaBan());
             giamGia = gh.getGiamGia();
         }
+        maDon = sanPhamGioHang.get(0).getMaDonHang();
         double tongTien = thanhTien - (thanhTien*(giamGia/100));
         thanhTienView.setText(String.valueOf(thanhTien));
         giamGiaView.setText(giamGia +"%");

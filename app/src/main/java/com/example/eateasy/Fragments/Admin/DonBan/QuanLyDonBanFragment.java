@@ -68,7 +68,7 @@ public class QuanLyDonBanFragment extends Fragment {
                 donHangList.addAll(response.body());
                 hoaDonBanAdapter = new HoaDonBanAdapter(getContext(), donHangList);
                 lvHoaDonBan.setAdapter(hoaDonBanAdapter);
-                tvSL.setText("Tổng số hóa đơn nhập: " + donHangList.size());
+                tvSL.setText("Tổng số hóa đơn bán: " + donHangList.size());
             }
 
             @Override

@@ -40,8 +40,8 @@
                 android:layout_height="wrap_content"
                 android:text="Xem thêm"
                 android:textStyle="italic"
-                android:textSize="16sp"
-                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
+                android:textColor="#0099CC"
                 android:layout_marginBottom="8dp" />
         </LinearLayout>
 
@@ -60,20 +60,22 @@
                 android:gravity="center_horizontal">
 
                 <TextView
-                    android:id="@+id/tv_revenue"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Doanh thu: 0"
+                    android:text="Doanh thu"
                     android:textSize="14sp"
                     android:textColor="#000000"
                     android:layout_marginBottom="4dp" />
 
                 <TextView
+                    android:id="@+id/tv_revenue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="VNĐ"
-                    android:textSize="12sp"
-                    android:textColor="#777777" />
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="#00FF33" />
             </LinearLayout>
 
             <LinearLayout
@@ -82,22 +84,23 @@
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Số đơn"
+                    android:textSize="14sp"
+                    android:textColor="#000000"
+                    android:layout_marginBottom="4dp" />
 
                 <TextView
                     android:id="@+id/tv_order_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Số đơn: 0"
-                    android:textSize="14sp"
-                    android:textColor="#000000"
-                    android:layout_marginBottom="4dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="Đơn"
-                    android:textSize="12sp"
-                    android:textColor="#777777" />
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/black" />
             </LinearLayout>
 
             <LinearLayout
@@ -108,20 +111,21 @@
                 android:gravity="center_horizontal">
 
                 <TextView
-                    android:id="@+id/tv_profit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Lợi nhuận: 0"
+                    android:text="Lợi nhuận"
                     android:textSize="14sp"
                     android:textColor="#000000"
                     android:layout_marginBottom="4dp" />
 
                 <TextView
+                    android:id="@+id/tv_profit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="VNĐ"
-                    android:textSize="12sp"
-                    android:textColor="#777777" />
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#00FF33" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

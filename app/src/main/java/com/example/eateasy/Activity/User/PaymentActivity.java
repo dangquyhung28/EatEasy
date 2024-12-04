@@ -3,6 +3,7 @@ package com.example.eateasy.Activity.User;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.eateasy.Adapter.User.DonHangAdapter;
+import com.example.eateasy.Api.CreateOrder;
 import com.example.eateasy.Model.GioHang;
 import com.example.eateasy.Model.KhachHang;
 import com.example.eateasy.R;
@@ -33,12 +35,18 @@ import com.example.eateasy.Retrofit.Utils.GioHangUtils;
 import com.example.eateasy.Retrofit.Utils.KhachHangUtils;
 import com.google.gson.JsonObject;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import vn.zalopay.sdk.Environment;
+import vn.zalopay.sdk.ZaloPayError;
+import vn.zalopay.sdk.ZaloPaySDK;
+import vn.zalopay.sdk.listeners.PayOrderListener;
 
 public class PaymentActivity extends AppCompatActivity {
     ImageView backBtn_pay;
@@ -52,6 +60,7 @@ public class PaymentActivity extends AppCompatActivity {
     String maDon;
     KhachHang khachHang;
     ChiTietDonHangInnterface chiTietDonHangInnterface;
+    double tongTienTT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +68,14 @@ public class PaymentActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_payment);
         initWidgets();
+        //zalo
+        StrictMode.ThreadPolicy policy = new
+                StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        // ZaloPay SDK Init
+        ZaloPaySDK.init(2553, Environment.SANDBOX);
+
         Intent intent = getIntent();
         maKH = intent.getStringExtra("maKH");
 
@@ -72,17 +89,98 @@ public class PaymentActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(checkKH()){
                     xuLyDonHang(maDon);
-//                    Intent intent1 = new Intent(PaymentActivity.this, OderHistoryActivity.class);
-//                    intent1.putExtra("MaKH", maKH);
-//                    startActivity(intent1);
+                    CreateOrder orderApi = new CreateOrder();
+                    try {
+                        JSONObject data = orderApi.createOrder(pay_total.getText().toString());
+                        Log.d("Amount", pay_total.getText().toString());
+                        String code = data.getString("return_code");
+
+                        if (code.equals("1")) {
+                            String token = data.getString("zp_trans_token");
+                            ZaloPaySDK.getInstance().payOrder(PaymentActivity.this, token, "demozpdk://app", new PayOrderListener() {
+                                @Override
+                                public void onPaymentSucceeded(String s, String s1, String s2) {
+                                    Intent intent1 = new Intent(PaymentActivity.this, OderHistoryActivity.class);
+                                    intent1.putExtra("result", "Thanh toán thành công");
+                                    //intent1.putExtra("maKH", maKH);
+                                    startActivity(intent1);
+                                }
+
+                                @Override
+                                public void onPaymentCanceled(String s, String s1) {
+                                    Intent intent1 = new Intent(PaymentActivity.this, OderHistoryActivity.class);
+                                    intent1.putExtra("result", "Hủy thanh toán");
+                                    //intent1.putExtra("maKH", maKH);
+                                    startActivity(intent1);
+                                }
+
+                                @Override
+                                public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+                                    Intent intent1 = new Intent(PaymentActivity.this, OderHistoryActivity.class);
+                                    intent1.putExtra("result", "Lỗi thanh toán");
+                                    //intent1.putExtra("maKH", maKH);
+                                    startActivity(intent1);
+                                }
+                            });
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
+
         });
 
 
 
 
 
+    }
+    private void thanhToan(){
+        CreateOrder orderApi = new CreateOrder();
+        try {
+            JSONObject data = orderApi.createOrder(pay_total.getText().toString());
+            Log.d("Amount", pay_total.getText().toString());
+            String code = data.getString("return_code");
+
+            if (code.equals("1")) {
+                String token = data.getString("zp_trans_token");
+                ZaloPaySDK.getInstance().payOrder(PaymentActivity.this, token, "demozpdk://app", new PayOrderListener() {
+                    @Override
+                    public void onPaymentSucceeded(String s, String s1, String s2) {
+                        Intent intent1 = new Intent(PaymentActivity.this, OderHistoryActivity.class);
+                        intent1.putExtra("result", "Thanh toán thành công");
+                        //intent1.putExtra("maKH", maKH);
+                        startActivity(intent1);
+                    }
+
+                    @Override
+                    public void onPaymentCanceled(String s, String s1) {
+                        Intent intent1 = new Intent(PaymentActivity.this, OderHistoryActivity.class);
+                        intent1.putExtra("result", "Hủy thanh toán");
+                        //intent1.putExtra("maKH", maKH);
+                        startActivity(intent1);
+                    }
+
+                    @Override
+                    public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+                        Intent intent1 = new Intent(PaymentActivity.this, OderHistoryActivity.class);
+                        intent1.putExtra("result", "Lỗi thanh toán");
+                        //intent1.putExtra("maKH", maKH);
+                        startActivity(intent1);
+                    }
+                });
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        ZaloPaySDK.getInstance().onResult(intent);
     }
 
     private boolean checkKH() {
@@ -101,10 +199,11 @@ public class PaymentActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(PaymentActivity.this, "Nhận đon thành công " + response.message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PaymentActivity.this, "Tạo thành công " + response.message(), Toast.LENGTH_SHORT).show();
+                    thanhToan();
                 } else {
 
-                    Toast.makeText(PaymentActivity.this, "Nhận đơn thất bại " + response.message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PaymentActivity.this, "Tạo đơn thất bại " + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -114,6 +213,7 @@ public class PaymentActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void showEditCustomerDialog() {
         // Tạo dialog
@@ -203,12 +303,12 @@ public class PaymentActivity extends AppCompatActivity {
         for(GioHang gh : sanPhams){
             tongTien = tongTien + gh.getThanhTien();
         }
+        tongTienTT = tongTien;
         pay_total.setText(String.valueOf(tongTien + " VND"));
     }
 
 
     private void initWidgets() {
-        backBtn_pay = findViewById(R.id.backBtn_history);
         tvTen = findViewById(R.id.tvTen);
         tvSdt = findViewById(R.id.tvSdt);
 
@@ -218,7 +318,7 @@ public class PaymentActivity extends AppCompatActivity {
         payment_cod = findViewById(R.id.payment_cod);
         payment_credit_card = findViewById(R.id.payment_credit_card);
         payment_e_wallet = findViewById(R.id.payment_e_wallet);
-        btnDatHang = findViewById(R.id.btnDatHang);
+        btnDatHang = findViewById(R.id.btnDatHangZ);
     }
 
     private void fetchAndCheckCustomer(String id) {

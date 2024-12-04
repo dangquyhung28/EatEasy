@@ -1,5 +1,6 @@
 package com.example.eateasy.Fragments.Admin.DonBan;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,8 @@ import android.widget.Toast;
 
 import com.example.eateasy.Activity.User.CartActivity;
 import com.example.eateasy.Adapter.Admin.SanPhamDonHangAdapter;
+import com.example.eateasy.Fragments.Admin.BaoCaoThongKe.BaoCaoThongKeFragment;
+import com.example.eateasy.Fragments.Admin.HomeFragment;
 import com.example.eateasy.Model.ChiTietDonHang;
 import com.example.eateasy.Model.SanPhamDonHang;
 import com.example.eateasy.R;
@@ -74,6 +77,18 @@ public class ChiTietDonFragment extends Fragment {
                 nhanDonHang(maDonHang);
             }
         });
+        btnHuyDon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HomeFragment homeFragment = new HomeFragment();
+                requireActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_layout_admin, homeFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
         return view;
     }
 
@@ -88,7 +103,7 @@ public class ChiTietDonFragment extends Fragment {
                     Toast.makeText(getContext(), "Nhận đon thành công " + response.message(), Toast.LENGTH_SHORT).show();
                 } else {
 
-                    Toast.makeText(getContext(), "Nhận đơn thất bại " + response.message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Nhận đơn " + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 

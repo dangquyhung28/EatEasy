@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +30,7 @@ public class OderHistoryActivity extends AppCompatActivity {
     ImageView backBtn_history;
     ListView order_list;
     String makh;
+    TextView tvNotification;
     private LichSuDonHangAdapter lichSuDonHangAdapter;
     private ArrayList<DonHang> donHangList;
     @Override
@@ -36,8 +38,11 @@ public class OderHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_oder_history);
+
+
         initWidget();
         Intent intent = getIntent();
+        tvNotification.setText(intent.getStringExtra("result"));
         makh = intent.getStringExtra("maKH");
         donHangList = new ArrayList<>();
         loadDonHang(makh);
@@ -64,5 +69,6 @@ public class OderHistoryActivity extends AppCompatActivity {
     private void initWidget() {
         backBtn_history = findViewById(R.id.backBtn_history);
         order_list = findViewById(R.id.order_list);
+        tvNotification = findViewById(R.id.notification);
     }
 }

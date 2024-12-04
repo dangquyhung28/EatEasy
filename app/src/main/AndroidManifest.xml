@@ -61,10 +61,23 @@
 
         <activity
             android:name=".Activity.User.PaymentActivity"
-            android:exported="false" />
+            android:exported="true"
+            android:label="Merchant Demo"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="app"
+                    android:scheme="demozpdk" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Activity.User.OderHistoryActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".Activity.User.DetailActivity"
             android:exported="false" />
@@ -73,11 +86,7 @@
             android:exported="false" />
         <activity
             android:name=".Activity.Admin.DashboardActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false" >
 
         </activity>
         <activity
@@ -85,7 +94,11 @@
             android:exported="false" />
         <activity
             android:name=".Activity.IntroActivity"
-            android:exported="false" >
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
 

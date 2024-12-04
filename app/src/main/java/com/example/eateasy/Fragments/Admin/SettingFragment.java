@@ -20,7 +20,7 @@ import com.example.eateasy.R;
  * create an instance of this fragment.
  */
 public class SettingFragment extends Fragment {
-    ImageView btnLogout;
+    TextView btnLogout;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
