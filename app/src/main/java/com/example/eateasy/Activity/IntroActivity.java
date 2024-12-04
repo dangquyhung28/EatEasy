@@ -18,7 +18,6 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.eateasy.R;
 
 public class IntroActivity extends AppCompatActivity {
-    Button btnStart;
     TextView splashText;
     ImageView logo;
     @Override
@@ -28,7 +27,6 @@ public class IntroActivity extends AppCompatActivity {
         setContentView(R.layout.activity_intro);
 
         //anh xa
-        btnStart = findViewById(R.id.startButton);
         splashText = findViewById(R.id.appName);
         logo = findViewById(R.id.logo);
 
@@ -47,7 +45,9 @@ public class IntroActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                btnStart.setVisibility(View.VISIBLE);
+                Intent intent = new Intent(IntroActivity.this, Login_Activity.class);
+                startActivity(intent);
+                finish();
             }
 
             @Override
@@ -56,14 +56,6 @@ public class IntroActivity extends AppCompatActivity {
             }
         });
 
-        btnStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(IntroActivity.this, Login_Activity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
 
     }
 }

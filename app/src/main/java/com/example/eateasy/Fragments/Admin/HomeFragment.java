@@ -29,13 +29,17 @@ import com.example.eateasy.Fragments.Admin.SanPham.ProductFragment;
 import com.example.eateasy.Model.DoanhThuSanPham;
 import com.example.eateasy.Model.DonHang;
 import com.example.eateasy.Model.SanPham;
+import com.example.eateasy.Model.SoDonHang;
 import com.example.eateasy.R;
 import com.example.eateasy.Retrofit.Interface.DonHangInterface;
 import com.example.eateasy.Retrofit.Utils.DonHangUtils;
+import com.google.gson.JsonObject;
 
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,12 +48,13 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
 
-    TextView tvXemThem, tvDoanhThu, tvNgay;
+    TextView tvXemThem, tvDoanhThu, tvNgay, tvSodon, tvLoiNhuan;
     ListView lsDon;
     ArrayList<DonHang> donHangs;
     DonXyLyAdapter donXyLyAdapter;
     ArrayList<DonHang> tongDonHang = new ArrayList<>();
-
+    SoDonHang soDonHangs;
+    NumberFormat numberFormat;
     @Override
     public void onResume() {
         super.onResume();
@@ -69,6 +74,10 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        numberFormat = NumberFormat.getInstance(Locale.getDefault());
+        numberFormat.setGroupingUsed(true);
+        tvLoiNhuan = view.findViewById(R.id.tv_profit);
+        tvSodon = view.findViewById(R.id.tv_order_count);
         tvNgay = view.findViewById(R.id.tv_today_date);
         tvDoanhThu = view.findViewById(R.id.tv_revenue);
         tvXemThem = view.findViewById(R.id.tv_today_detail);
@@ -132,12 +141,20 @@ public class HomeFragment extends Fragment {
 
                     // Tính toán tổng doanh thu
                     double tongDoanhThu = 0;
+                    double loiNhuan = 0;
                     for (DoanhThuSanPham dt : doanhThuSanPhams) {
                         tongDoanhThu += dt.getDoanhThu();
+                        loiNhuan += dt.getLoiNhuan();
                     }
 
                     // Cập nhật UI sau khi có dữ liệu
-                    tvDoanhThu.setText(String.format("Doanh thu: %.2f", tongDoanhThu));
+                    String formattedRevenue = numberFormat.format(tongDoanhThu) + " VND";
+                    String formattedLN = numberFormat.format(loiNhuan) + " VND";
+                    tvDoanhThu.setText(String.format(formattedRevenue));
+                    tvLoiNhuan.setText(String.format(formattedLN));
+                    tvNgay.setText("Hôm nay "+formatDate(doanhThuSanPhams.get(0).getNgay()));
+                    loadDon();
+
                 } else {
                     Log.e("API ERROR", "Không nhận được phản hồi hợp lệ từ server");
                 }
@@ -146,6 +163,23 @@ public class HomeFragment extends Fragment {
             @Override
             public void onFailure(Call<ArrayList<DoanhThuSanPham>> call, Throwable t) {
                 Log.e("API ERROR", "Gọi API thất bại: " + t.getMessage());
+            }
+        });
+    }
+
+    private void loadDon() {
+        DonHangInterface donHangInterface = DonHangUtils.getHoaDOnBanService();
+
+        donHangInterface.getTongSoDonHang().enqueue(new Callback<SoDonHang>() {
+            @Override
+            public void onResponse(Call<SoDonHang> call, Response<SoDonHang> response) {
+                soDonHangs = response.body();
+                tvSodon.setText(String.valueOf(soDonHangs.getTongSoDonHangHomNay()));
+            }
+
+            @Override
+            public void onFailure(Call<SoDonHang> call, Throwable t) {
+
             }
         });
     }
@@ -187,5 +221,32 @@ public class HomeFragment extends Fragment {
             }
         });
 
+    }
+    public String formatDate(String dateString) {
+        if (dateString != null && dateString.length() > 0) {
+            String[] parts = dateString.split(" ");
+            if (parts.length >= 4) {
+                return parts[1] + "-" + getMonthNumber(parts[2]) + "-" + parts[3];
+            }
+        }
+        return "Invalid Date";
+    }
+
+    private String getMonthNumber(String month) {
+        switch (month) {
+            case "Jan": return "01";
+            case "Feb": return "02";
+            case "Mar": return "03";
+            case "Apr": return "04";
+            case "May": return "05";
+            case "Jun": return "06";
+            case "Jul": return "07";
+            case "Aug": return "08";
+            case "Sep": return "09";
+            case "Oct": return "10";
+            case "Nov": return "11";
+            case "Dec": return "12";
+            default: return "00";
+        }
     }
 }
