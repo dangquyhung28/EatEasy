@@ -175,7 +175,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="20dp"
             android:id="@+id/btnDatHangZ"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
