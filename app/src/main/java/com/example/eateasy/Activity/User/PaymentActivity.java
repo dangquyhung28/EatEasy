@@ -61,6 +61,7 @@ public class PaymentActivity extends AppCompatActivity {
     KhachHang khachHang;
     ChiTietDonHangInnterface chiTietDonHangInnterface;
     double tongTienTT;
+    String tongtien;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +79,7 @@ public class PaymentActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         maKH = intent.getStringExtra("maKH");
-
+        tongtien = String.valueOf(pay_total.getText().toString());
         sanPhams = new ArrayList<>();
         donHangAdapter = new DonHangAdapter(PaymentActivity.this, sanPhams);
         rcvOrder.setLayoutManager(new LinearLayoutManager(PaymentActivity.this));
@@ -88,45 +89,8 @@ public class PaymentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(checkKH()){
-                    xuLyDonHang(maDon);
-                    CreateOrder orderApi = new CreateOrder();
-                    try {
-                        JSONObject data = orderApi.createOrder(pay_total.getText().toString());
-                        Log.d("Amount", pay_total.getText().toString());
-                        String code = data.getString("return_code");
-
-                        if (code.equals("1")) {
-                            String token = data.getString("zp_trans_token");
-                            ZaloPaySDK.getInstance().payOrder(PaymentActivity.this, token, "demozpdk://app", new PayOrderListener() {
-                                @Override
-                                public void onPaymentSucceeded(String s, String s1, String s2) {
-                                    Intent intent1 = new Intent(PaymentActivity.this, OderHistoryActivity.class);
-                                    intent1.putExtra("result", "Thanh toán thành công");
-                                    //intent1.putExtra("maKH", maKH);
-                                    startActivity(intent1);
-                                }
-
-                                @Override
-                                public void onPaymentCanceled(String s, String s1) {
-                                    Intent intent1 = new Intent(PaymentActivity.this, OderHistoryActivity.class);
-                                    intent1.putExtra("result", "Hủy thanh toán");
-                                    //intent1.putExtra("maKH", maKH);
-                                    startActivity(intent1);
-                                }
-
-                                @Override
-                                public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
-                                    Intent intent1 = new Intent(PaymentActivity.this, OderHistoryActivity.class);
-                                    intent1.putExtra("result", "Lỗi thanh toán");
-                                    //intent1.putExtra("maKH", maKH);
-                                    startActivity(intent1);
-                                }
-                            });
-                        }
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    //xuLyDonHang(maDon);
+                    thanhToan();
                 }
             }
 
@@ -140,10 +104,18 @@ public class PaymentActivity extends AppCompatActivity {
     private void thanhToan(){
         CreateOrder orderApi = new CreateOrder();
         try {
-            JSONObject data = orderApi.createOrder(pay_total.getText().toString());
-            Log.d("Amount", pay_total.getText().toString());
-            String code = data.getString("return_code");
 
+            //JSONObject data = orderApi.createOrder(pay_total.getText().toString());
+            Log.d("Amount", pay_total.getText().toString());
+            String amountString = pay_total.getText().toString();
+            int amount = (int) Double.parseDouble(amountString);
+            JSONObject data = orderApi.createOrder(String.valueOf(amount));
+            String code = data.getString("return_code");
+            if (!code.equals("1")) {
+                Log.e("PaymentError", "Invalid return_code: " + code);
+                Toast.makeText(this, "Lỗi khởi tạo thanh toán", Toast.LENGTH_SHORT).show();
+                return;
+            }
             if (code.equals("1")) {
                 String token = data.getString("zp_trans_token");
                 ZaloPaySDK.getInstance().payOrder(PaymentActivity.this, token, "demozpdk://app", new PayOrderListener() {
@@ -304,7 +276,7 @@ public class PaymentActivity extends AppCompatActivity {
             tongTien = tongTien + gh.getThanhTien();
         }
         tongTienTT = tongTien;
-        pay_total.setText(String.valueOf(tongTien + " VND"));
+        pay_total.setText(String.valueOf(tongTien));
     }
 
 
